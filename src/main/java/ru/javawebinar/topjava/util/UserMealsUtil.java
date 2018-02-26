@@ -28,14 +28,17 @@ public class UserMealsUtil {
                 new UserMeal(LocalDateTime.of(2015, Month.MAY, 31,20,0), "Ужин", 510)
         );
       List<UserMealWithExceed> filteredWithExceeded = getFilteredWithExceeded(mealList, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
+      System.out.println(filteredWithExceeded);
+      filteredWithExceeded = getFilteredWithExceeded2(mealList, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
+      System.out.println(filteredWithExceeded);
 //        .toLocalDate();
 //        .toLocalTime();
-      System.out.println(filteredWithExceeded);
     }
 
   public static List<UserMealWithExceed> getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
     // TODO return filtered list with correctly exceeded field
 
+    // ------------------- version_1: -------------------------
     Map<LocalDate, List<UserMeal>> mealListGroupedByDay = mealList
             .stream()
             .collect(Collectors.groupingBy(meal -> meal.getDateTime().toLocalDate()));
@@ -62,6 +65,37 @@ public class UserMealsUtil {
 
               userMealList.addAll(userMealListPerDay);  // как нужно переписать эту часть кода чтобы уйти от работы с коллекциями?
             });
+
+    return userMealList;
+  }
+
+  public static List<UserMealWithExceed> getFilteredWithExceeded2(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
+    // TODO return filtered list with correctly exceeded field
+
+    // ------------------- version_2: -------------------------
+    Map<LocalDate, List<UserMeal>> mealListGroupedByDay = mealList
+            .stream()
+            .collect(Collectors.groupingBy(meal -> meal.getDateTime().toLocalDate()));
+
+    List<UserMealWithExceed> userMealList = mealList
+            .stream()
+            .filter(meal -> {
+              LocalTime localTime = meal.getDateTime().toLocalTime();
+              return TimeUtil.isBetween(localTime, startTime, endTime);
+            })
+            .map(meal -> {
+              LocalDate localDate = meal.getDateTime().toLocalDate();
+              List<UserMeal> userMealsPerDay = mealListGroupedByDay.get(localDate);
+
+              int sumCaloriesPerDay = userMealsPerDay
+                      .stream()
+                      .mapToInt(UserMeal::getCalories)
+                      .sum();
+
+              UserMealWithExceed userMealWithExceed = new UserMealWithExceed(meal.getDateTime(), meal.getDescription(), meal.getCalories(), sumCaloriesPerDay > caloriesPerDay);
+              return userMealWithExceed;
+            })
+            .collect(Collectors.toList());
 
     return userMealList;
   }
