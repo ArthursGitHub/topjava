@@ -24,7 +24,7 @@ public class MealsUtil {
 
     public static void main(String[] args) {
         MealAction mealProcessor = MealFactory.getMeal();
-        List<Meal> meals = mealProcessor.getMeal();
+        List<Meal> meals = mealProcessor.getMeals();
 
 
         mealProcessor.addMeal(new Meal(LocalDateTime.now(), "345", 43));

@@ -34,8 +34,8 @@
                     <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${parsedDateTime}" var="dateTime"/>
                     <c:out value="${dateTime}"/>
                 </td>
-                <td><a href="addmeal?action=editmeal&mealId=<c:out value="${meal.id}"/>">Edit</a></td>
-                <td><a href="addmeal?action=deletemeal&mealId=<c:out value="${meal.id}"/>">Delete</a></td>
+                <td><a href="meals?action=editmeal&mealId=<c:out value="${meal.id}"/>">Edit</a></td>
+                <td><a href="meals?action=deletemeal&mealId=<c:out value="${meal.id}"/>">Delete</a></td>
             </tr>
 
         </c:forEach>
@@ -43,6 +43,6 @@
 
     </table>
 
-    <a href="addmeal?action=addmeal">Add meal</a>
+    <a href="meals?action=addmeal">Add meal</a>
 </body>
 </html>

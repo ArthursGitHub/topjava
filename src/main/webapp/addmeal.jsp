@@ -13,11 +13,11 @@
 <body>
     <h2>Add meal:</h2>
 
-    <form action="${pageContext.servletContext.contextPath}/addmeal?action=addmeal" method="POST">
+    <form action="${pageContext.servletContext.contextPath}/meals?action=addmeal" method="POST">
         description: <input type="text" name="description"/><br/>
         calories: <input type="text" name="calories"/><br/>
         dateTime: <input type="text" name="dateTime"/><br/>
-        <input type="submit" value="Добавить"/>
+        <input type="submit" value="Add"/>
     </form>
 
 </body>
