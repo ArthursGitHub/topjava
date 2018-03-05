@@ -3,8 +3,7 @@ package ru.javawebinar.topjava.model;
 import java.time.LocalDateTime;
 
 public class MealWithExceed {
-
-    private int id;
+    private final int id;
     private final LocalDateTime dateTime;
     private final String description;
     private final int calories;
@@ -16,7 +15,6 @@ public class MealWithExceed {
         this.calories = calories;
         this.exceed = exceed;
         this.id = id;
-
     }
 
     public LocalDateTime getDateTime() {
@@ -37,10 +35,6 @@ public class MealWithExceed {
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     @Override

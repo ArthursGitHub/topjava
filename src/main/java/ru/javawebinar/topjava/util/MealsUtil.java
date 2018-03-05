@@ -2,10 +2,9 @@ package ru.javawebinar.topjava.util;
 
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealWithExceed;
-import ru.javawebinar.topjava.service.MealAction;
+import ru.javawebinar.topjava.service.MealDAO;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collector;
@@ -23,11 +22,11 @@ public class MealsUtil {
 
 
     public static void main(String[] args) {
-        MealAction mealProcessor = MealFactory.getMeal();
-        List<Meal> meals = mealProcessor.getMeals();
+        MealDAO mealProcessor = DAOFactory.getDAO();
+        List<Meal> meals = mealProcessor.getAll();
 
 
-        mealProcessor.addMeal(new Meal(LocalDateTime.now(), "345", 43));
+//        mealProcessor.add(new Meal(LocalDateTime.now(), "345", 43, 5));
 
         List<MealWithExceed> mealsWithExceeded = getFilteredWithExceeded(meals, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
         mealsWithExceeded.forEach(System.out::println);
