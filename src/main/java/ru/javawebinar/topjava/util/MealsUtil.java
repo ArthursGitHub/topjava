@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.util;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealWithExceed;
 import ru.javawebinar.topjava.service.MealDao;
+import ru.javawebinar.topjava.service.impl.MemoryMealDaoImpl;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -22,7 +23,7 @@ public class MealsUtil {
 
 
     public static void main(String[] args) {
-        MealDao mealProcessor = DaoFactory.getDao();
+        MealDao mealProcessor = new MemoryMealDaoImpl();
         List<Meal> meals = mealProcessor.getAll();
 
 

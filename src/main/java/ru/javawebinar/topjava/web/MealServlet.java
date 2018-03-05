@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealWithExceed;
 import ru.javawebinar.topjava.service.MealDao;
-import ru.javawebinar.topjava.util.DaoFactory;
+import ru.javawebinar.topjava.service.impl.MemoryMealDaoImpl;
 import ru.javawebinar.topjava.util.MealsUtil;
 
 import javax.servlet.ServletException;
@@ -30,7 +30,7 @@ public class MealServlet extends HttpServlet {
   @Override
   public void init() throws ServletException {
     super.init();
-    mealDao = DaoFactory.getDao();
+    mealDao = new MemoryMealDaoImpl();
   }
 
   @Override
