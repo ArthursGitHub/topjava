@@ -79,16 +79,21 @@ public class MealServlet extends HttpServlet {
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    final String DATE_TIME_PATTERN = "dd.MM.yyyy HH:mm";
+    final String DESCRIPTION = "description";
+    final String CALORIES = "calories";
+    final String DATE_TIME = "dateTime";
+
     req.setCharacterEncoding("UTF-8");
     String action = req.getParameter("action");
 
     switch (action) {
       case "addmeal": {
-        String description = req.getParameter("description");
-        String calories = req.getParameter("calories");
-        String dateTime = req.getParameter("dateTime");
+        String description = req.getParameter(DESCRIPTION);
+        String calories = req.getParameter(CALORIES);
+        String dateTime = req.getParameter(DATE_TIME);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
         LocalDateTime formatDateTime = LocalDateTime.parse(dateTime, formatter);
 
         mealDAO.add(formatDateTime, description, Integer.valueOf(calories));
@@ -98,11 +103,11 @@ public class MealServlet extends HttpServlet {
       }
       case "updatemeal" : {
         Integer mealId = Integer.valueOf(req.getParameter("mealId"));
-        String description = req.getParameter("description");
-        String calories = req.getParameter("calories");
-        String dateTime = req.getParameter("dateTime");
+        String description = req.getParameter(DESCRIPTION);
+        String calories = req.getParameter(CALORIES);
+        String dateTime = req.getParameter(DATE_TIME);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
         LocalDateTime formatDateTime = LocalDateTime.parse(dateTime, formatter);
 
         mealDAO.update(formatDateTime, description, Integer.valueOf(calories), mealId);
