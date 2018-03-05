@@ -1,7 +1,7 @@
 package ru.javawebinar.topjava.service.impl;
 
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.service.MealDAO;
+import ru.javawebinar.topjava.service.MealDao;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -14,12 +14,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by arthur on 3/3/18.
  */
-public class MemoryMealDAOImpl implements MealDAO {
+public class MemoryMealDaoImpl implements MealDao {
 
   private final Map<Integer, Meal> mealMap;
   private final AtomicInteger counter;
 
-  public MemoryMealDAOImpl() {
+  public MemoryMealDaoImpl() {
     mealMap = new ConcurrentHashMap<>();
     counter = new AtomicInteger();
 

@@ -3,8 +3,8 @@ package ru.javawebinar.topjava.web;
 import org.slf4j.Logger;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealWithExceed;
-import ru.javawebinar.topjava.service.MealDAO;
-import ru.javawebinar.topjava.util.DAOFactory;
+import ru.javawebinar.topjava.service.MealDao;
+import ru.javawebinar.topjava.util.DaoFactory;
 import ru.javawebinar.topjava.util.MealsUtil;
 
 import javax.servlet.ServletException;
@@ -25,12 +25,12 @@ import static ru.javawebinar.topjava.util.MealsUtil.*;
 
 public class MealServlet extends HttpServlet {
   private static final Logger log = getLogger(MealServlet.class);
-  private MealDAO mealDAO;
+  private MealDao mealDao;
 
   @Override
   public void init() throws ServletException {
     super.init();
-    mealDAO = DAOFactory.getDAO();
+    mealDao = DaoFactory.getDao();
   }
 
   @Override
@@ -43,7 +43,7 @@ public class MealServlet extends HttpServlet {
 
     switch (action) {
       case "getmeal" : {
-        List<Meal> mealList = mealDAO.getAll();
+        List<Meal> mealList = mealDao.getAll();
         List<MealWithExceed> filteredWithExceeded = MealsUtil.getFilteredWithExceeded(mealList, START_TIME, END_TIME, CALORIES_PER_DAY);
 
         req.setAttribute("mealList", filteredWithExceeded);
@@ -57,16 +57,16 @@ public class MealServlet extends HttpServlet {
       }
       case "editmeal" : {
         Integer mealId = Integer.valueOf(req.getParameter("mealId"));
-        Meal meal = mealDAO.get(mealId);
+        Meal meal = mealDao.get(mealId);
         req.setAttribute("meal", meal);
         getServletContext().getRequestDispatcher("/editmeal.jsp").forward(req, resp);
         break;
       }
       case "deletemeal" : {
         Integer mealId = Integer.valueOf(req.getParameter("mealId"));
-        mealDAO.remove(mealId);
+        mealDao.remove(mealId);
 
-        List<Meal> mealList = mealDAO.getAll();
+        List<Meal> mealList = mealDao.getAll();
         List<MealWithExceed> filteredWithExceeded = MealsUtil.getFilteredWithExceeded(mealList, START_TIME, END_TIME, CALORIES_PER_DAY);
 
         req.setAttribute("mealList", filteredWithExceeded);
@@ -96,7 +96,7 @@ public class MealServlet extends HttpServlet {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
         LocalDateTime formatDateTime = LocalDateTime.parse(dateTime, formatter);
 
-        mealDAO.add(formatDateTime, description, Integer.valueOf(calories));
+        mealDao.add(formatDateTime, description, Integer.valueOf(calories));
 
         resp.sendRedirect("meals");
         break;
@@ -110,7 +110,7 @@ public class MealServlet extends HttpServlet {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
         LocalDateTime formatDateTime = LocalDateTime.parse(dateTime, formatter);
 
-        mealDAO.update(formatDateTime, description, Integer.valueOf(calories), mealId);
+        mealDao.update(formatDateTime, description, Integer.valueOf(calories), mealId);
 
         resp.sendRedirect("meals");
         break;

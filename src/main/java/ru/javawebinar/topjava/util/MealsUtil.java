@@ -2,7 +2,7 @@ package ru.javawebinar.topjava.util;
 
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealWithExceed;
-import ru.javawebinar.topjava.service.MealDAO;
+import ru.javawebinar.topjava.service.MealDao;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -22,7 +22,7 @@ public class MealsUtil {
 
 
     public static void main(String[] args) {
-        MealDAO mealProcessor = DAOFactory.getDAO();
+        MealDao mealProcessor = DaoFactory.getDao();
         List<Meal> meals = mealProcessor.getAll();
 
 

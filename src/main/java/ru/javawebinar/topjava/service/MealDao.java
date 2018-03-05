@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by arthur on 3/3/18.
  */
-public interface MealDAO {
+public interface MealDao {
   Meal add(LocalDateTime dateTime, String description, int calories);
   Meal update(LocalDateTime dateTime, String description, int calories, int mealId);
   void remove(int id);
