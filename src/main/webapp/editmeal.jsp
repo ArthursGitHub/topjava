@@ -13,7 +13,6 @@
 
     <form action="${pageContext.servletContext.contextPath}/meals?action=updatemeal" method="POST">
 
-
         <table border="1">
             <thead>
             <tr>
@@ -38,10 +37,6 @@
             </tbody>
         </table>
 
-
-        <%--description: <input type="text" name="description" value="${meal.description}"/><br/>--%>
-        <%--calories: <input type="text" name="calories" value="${meal.calories}"/><br/>--%>
-        <%--dateTime: <input type="text" name="dateTime" value="${dateTime}"/><br/>--%>
         <input type="hidden" name="mealId" value="${meal.id}">
 
         <input type="submit" value="Save"/>
