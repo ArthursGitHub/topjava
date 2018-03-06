@@ -8,10 +8,12 @@
 </head>
 <body>
     <h2>Edit meal:</h2>
+
+    <c:set var="action" value="${empty meal ? 'addmeal':'updatemeal'}"/>
     <fmt:parseDate value="${meal.dateTime}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both"/>
     <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${parsedDateTime}" var="dateTime"/>
 
-    <form action="${pageContext.servletContext.contextPath}/meals?action=updatemeal" method="POST">
+    <form action="${pageContext.servletContext.contextPath}/meals?action=${action}" method="POST">
 
         <table border="1">
             <thead>

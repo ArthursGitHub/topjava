@@ -51,26 +51,18 @@ public class MealServlet extends HttpServlet {
         getServletContext().getRequestDispatcher("/meals.jsp").forward(req, resp);
         break;
       }
-      case "addmeal": {
-        getServletContext().getRequestDispatcher("/addmeal.jsp").forward(req, resp);
-        break;
-      }
       case "editmeal" : {
         Integer mealId = Integer.valueOf(req.getParameter("mealId"));
         Meal meal = mealDao.get(mealId);
         req.setAttribute("meal", meal);
+      }
+      case "addmeal": {
         getServletContext().getRequestDispatcher("/editmeal.jsp").forward(req, resp);
         break;
       }
       case "deletemeal" : {
         Integer mealId = Integer.valueOf(req.getParameter("mealId"));
         mealDao.remove(mealId);
-
-        List<Meal> mealList = mealDao.getAll();
-        List<MealWithExceed> filteredWithExceeded = MealsUtil.getFilteredWithExceeded(mealList, START_TIME, END_TIME, CALORIES_PER_DAY);
-
-        req.setAttribute("mealList", filteredWithExceeded);
-
         resp.sendRedirect("meals");
         break;
       }
@@ -88,21 +80,8 @@ public class MealServlet extends HttpServlet {
     String action = req.getParameter("action");
 
     switch (action) {
-      case "addmeal": {
-        String description = req.getParameter(DESCRIPTION);
-        String calories = req.getParameter(CALORIES);
-        String dateTime = req.getParameter(DATE_TIME);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
-        LocalDateTime formatDateTime = LocalDateTime.parse(dateTime, formatter);
-
-        mealDao.add(formatDateTime, description, Integer.valueOf(calories));
-
-        resp.sendRedirect("meals");
-        break;
-      }
+      case "addmeal" :
       case "updatemeal" : {
-        Integer mealId = Integer.valueOf(req.getParameter("mealId"));
         String description = req.getParameter(DESCRIPTION);
         String calories = req.getParameter(CALORIES);
         String dateTime = req.getParameter(DATE_TIME);
@@ -110,7 +89,12 @@ public class MealServlet extends HttpServlet {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
         LocalDateTime formatDateTime = LocalDateTime.parse(dateTime, formatter);
 
-        mealDao.update(formatDateTime, description, Integer.valueOf(calories), mealId);
+        if ("updatemeal".equals(action)) {
+          Integer mealId = Integer.valueOf(req.getParameter("mealId"));
+          mealDao.update(new Meal(formatDateTime, description, Integer.valueOf(calories), mealId));
+        } else {
+          mealDao.add(new Meal(formatDateTime, description, Integer.valueOf(calories)));
+        }
 
         resp.sendRedirect("meals");
         break;
