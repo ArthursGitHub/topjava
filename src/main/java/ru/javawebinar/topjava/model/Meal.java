@@ -10,7 +10,7 @@ public class Meal {
     private final String description;
     private final int calories;
 
-    public Meal(LocalDateTime dateTime, String description, int calories, int mealId) {
+    public Meal(int mealId, LocalDateTime dateTime, String description, int calories) {
         this.id = mealId;
         this.dateTime = dateTime;
         this.description = description;
@@ -18,7 +18,7 @@ public class Meal {
     }
 
     public Meal(LocalDateTime dateTime, String description, int calories) {
-        this(dateTime, description, calories, 0);
+        this(0, dateTime, description, calories);
     }
 
     public LocalDateTime getDateTime() {

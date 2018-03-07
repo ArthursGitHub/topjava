@@ -24,6 +24,15 @@ import static ru.javawebinar.topjava.util.MealsUtil.*;
  */
 
 public class MealServlet extends HttpServlet {
+  private final String ADD_MEAL = "addmeal";
+  private final String EDIT_MEAL = "editmeal";
+  private final String UPDATE_MEAL = "updatemeal";
+  private final String DELETE_MEAL = "deletemeal";
+  private final String GET_MEAL = "getmeal";
+
+  private final String DATE_TIME_PATTERN = "dd.MM.yyyy HH:mm";
+  private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
+
   private static final Logger log = getLogger(MealServlet.class);
   private MealDao mealDao;
 
@@ -38,11 +47,11 @@ public class MealServlet extends HttpServlet {
     String action = req.getParameter("action");
 
     if (action == null) {
-      action = "getmeal";
+      action = GET_MEAL;
     }
 
     switch (action) {
-      case "getmeal" : {
+      case GET_MEAL : {
         List<Meal> mealList = mealDao.getAll();
         List<MealWithExceed> filteredWithExceeded = MealsUtil.getFilteredWithExceeded(mealList, START_TIME, END_TIME, CALORIES_PER_DAY);
 
@@ -51,16 +60,16 @@ public class MealServlet extends HttpServlet {
         getServletContext().getRequestDispatcher("/meals.jsp").forward(req, resp);
         break;
       }
-      case "editmeal" : {
+      case EDIT_MEAL : {
         Integer mealId = Integer.valueOf(req.getParameter("mealId"));
         Meal meal = mealDao.get(mealId);
         req.setAttribute("meal", meal);
       }
-      case "addmeal": {
+      case ADD_MEAL: {
         getServletContext().getRequestDispatcher("/editmeal.jsp").forward(req, resp);
         break;
       }
-      case "deletemeal" : {
+      case DELETE_MEAL : {
         Integer mealId = Integer.valueOf(req.getParameter("mealId"));
         mealDao.remove(mealId);
         resp.sendRedirect("meals");
@@ -71,7 +80,6 @@ public class MealServlet extends HttpServlet {
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    final String DATE_TIME_PATTERN = "dd.MM.yyyy HH:mm";
     final String DESCRIPTION = "description";
     final String CALORIES = "calories";
     final String DATE_TIME = "dateTime";
@@ -79,26 +87,19 @@ public class MealServlet extends HttpServlet {
     req.setCharacterEncoding("UTF-8");
     String action = req.getParameter("action");
 
-    switch (action) {
-      case "addmeal" :
-      case "updatemeal" : {
-        String description = req.getParameter(DESCRIPTION);
-        String calories = req.getParameter(CALORIES);
-        String dateTime = req.getParameter(DATE_TIME);
+    if (ADD_MEAL.equals(action) || UPDATE_MEAL.equals(action)) {
+      String description = req.getParameter(DESCRIPTION);
+      String calories = req.getParameter(CALORIES);
+      String dateTime = req.getParameter(DATE_TIME);
+      LocalDateTime formatDateTime = LocalDateTime.parse(dateTime, formatter);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
-        LocalDateTime formatDateTime = LocalDateTime.parse(dateTime, formatter);
-
-        if ("updatemeal".equals(action)) {
-          Integer mealId = Integer.valueOf(req.getParameter("mealId"));
-          mealDao.update(new Meal(formatDateTime, description, Integer.valueOf(calories), mealId));
-        } else {
-          mealDao.add(new Meal(formatDateTime, description, Integer.valueOf(calories)));
-        }
-
-        resp.sendRedirect("meals");
-        break;
+      if (UPDATE_MEAL.equals(action)) {
+        Integer mealId = Integer.valueOf(req.getParameter("mealId"));
+        mealDao.update(new Meal(mealId, formatDateTime, description, Integer.valueOf(calories)));
+      } else {
+        mealDao.add(new Meal(formatDateTime, description, Integer.valueOf(calories)));
       }
     }
+    resp.sendRedirect("meals");
   }
 }
