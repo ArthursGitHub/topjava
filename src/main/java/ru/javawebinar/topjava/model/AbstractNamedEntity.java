@@ -1,7 +1,6 @@
 package ru.javawebinar.topjava.model;
 
 public abstract class AbstractNamedEntity extends AbstractBaseEntity {
-
     protected String name;
 
     protected AbstractNamedEntity(Integer id, String name) {
@@ -12,7 +11,6 @@ public abstract class AbstractNamedEntity extends AbstractBaseEntity {
     public void setName(String name) {
         this.name = name;
     }
-
     public String getName() {
         return this.name;
     }

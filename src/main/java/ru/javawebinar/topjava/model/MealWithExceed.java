@@ -4,13 +4,9 @@ import java.time.LocalDateTime;
 
 public class MealWithExceed {
     private final Integer id;
-
     private final LocalDateTime dateTime;
-
     private final String description;
-
     private final int calories;
-
     private final boolean exceed;
 
     public MealWithExceed(Integer id, LocalDateTime dateTime, String description, int calories, boolean exceed) {

@@ -10,7 +10,6 @@ public abstract class AbstractBaseEntity {
     public void setId(Integer id) {
         this.id = id;
     }
-
     public Integer getId() {
         return id;
     }
