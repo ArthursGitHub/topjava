@@ -72,7 +72,7 @@ public class MealServlet extends HttpServlet {
                 withExceeded.sort((o1, o2) -> {
                             LocalDateTime dateTime1 = o1.getDateTime();
                             LocalDateTime dateTime2 = o2.getDateTime();
-                    return -dateTime1.compareTo(dateTime2);
+                            return -dateTime1.compareTo(dateTime2);
                         }
                 );
                 request.setAttribute("meals", withExceeded);
