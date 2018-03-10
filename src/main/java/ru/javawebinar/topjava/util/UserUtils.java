@@ -11,7 +11,6 @@ import java.util.List;
 public class UserUtils {
   public static final List<User> USERS = Arrays.asList(
           new User("Alex", "mail1@mail.ru", "pswd1"),
-          new User("Bob",  "mail2@mail.ru", "pswd2"),
-          new User("Tom",  "mail3@mail.ru", "pswd3")
+          new User("Bob",  "mail2@mail.ru", "pswd2")
   );
 }
