@@ -2,9 +2,11 @@ package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.repository.MealRepository;
-import ru.javawebinar.topjava.repository.mock.InMemoryMealRepositoryImpl;
+import ru.javawebinar.topjava.service.MealService;
+import ru.javawebinar.topjava.service.MealServiceImpl;
 import ru.javawebinar.topjava.to.MealWithExceed;
 import ru.javawebinar.topjava.util.MealsUtil;
 
@@ -23,12 +25,13 @@ public class MealServlet extends HttpServlet {
     private static final Logger log = LoggerFactory.getLogger(MealServlet.class);
     private final int USER_ID = 0;
 
-    private MealRepository repository;
+    private MealService mealService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        repository = new InMemoryMealRepositoryImpl();
+        ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml");
+        mealService = appCtx.getBean(MealServiceImpl.class);
     }
 
     @Override
@@ -42,7 +45,7 @@ public class MealServlet extends HttpServlet {
                 Integer.parseInt(request.getParameter("calories")));
 
         log.info(meal.isNew() ? "Create {}" : "Update {}", meal);
-        repository.save(USER_ID, meal);
+        mealService.create(USER_ID, meal);
         response.sendRedirect("meals");
     }
 
@@ -54,21 +57,21 @@ public class MealServlet extends HttpServlet {
             case "delete":
                 int id = getId(request);
                 log.info("Delete {}", id);
-                repository.delete(USER_ID, id);
+                mealService.delete(USER_ID, id);
                 response.sendRedirect("meals");
                 break;
             case "create":
             case "update":
                 final Meal meal = "create".equals(action) ?
                         new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000) :
-                        repository.get(USER_ID, getId(request));
+                        mealService.get(USER_ID, getId(request));
                 request.setAttribute("meal", meal);
                 request.getRequestDispatcher("/mealForm.jsp").forward(request, response);
                 break;
             case "all":
             default:
                 log.info("getAll");
-                List<MealWithExceed> withExceeded = MealsUtil.getWithExceeded(repository.getAll(USER_ID), MealsUtil.DEFAULT_CALORIES_PER_DAY);
+                List<MealWithExceed> withExceeded = MealsUtil.getWithExceeded(mealService.getAll(USER_ID), MealsUtil.DEFAULT_CALORIES_PER_DAY);
                 withExceeded.sort((o1, o2) -> {
                             LocalDateTime dateTime1 = o1.getDateTime();
                             LocalDateTime dateTime2 = o2.getDateTime();
