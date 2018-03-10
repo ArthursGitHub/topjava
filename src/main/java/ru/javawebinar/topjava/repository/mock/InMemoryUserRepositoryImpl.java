@@ -53,7 +53,13 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     @Override
     public List<User> getAll() {
         log.info("getAll");
-        return new ArrayList<User>(repository.values());    // TODO: user sorting
+        ArrayList<User> users = new ArrayList<>(repository.values());
+        users.sort((o1, o2) -> {
+            String name1 = o1.getName();
+            String name2 = o2.getName();
+            return name1.compareTo(name2);
+        });
+        return users;
     }
 
     @Override
