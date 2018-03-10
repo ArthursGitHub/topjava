@@ -39,9 +39,7 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
             repository.put(user.getId(), user);
             return user;
         }
-
-        User computedUser = repository.computeIfPresent(user.getId(), (id, oldUser) -> user);
-        return computedUser;
+        return repository.computeIfPresent(user.getId(), (id, oldUser) -> user);
     }
 
     @Override
@@ -54,9 +52,9 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     public List<User> getAll() {
         log.info("getAll");
         ArrayList<User> users = new ArrayList<>(repository.values());
-        users.sort((o1, o2) -> {
-            String name1 = o1.getName();
-            String name2 = o2.getName();
+        users.sort((user1, user2) -> {
+            String name1 = user1.getName();
+            String name2 = user2.getName();
             return name1.compareTo(name2);
         });
         return users;
@@ -68,8 +66,8 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
 
         List<User> allUsers = getAll();
         for (User user : allUsers) {
-            String useremail = user.getEmail();
-            if (email.equals(useremail)) {
+            String userEmail = user.getEmail();
+            if (email.equals(userEmail)) {
                 return user;
             }
         }
