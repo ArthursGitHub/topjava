@@ -24,7 +24,7 @@ public class MealRestController {
     }
 
     public Meal create(int userId, Meal meal) {
-        checkNew(meal);
+//        checkNew(meal);
         return service.create(userId, meal);
     }
 
