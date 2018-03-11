@@ -88,7 +88,7 @@ public class MealServlet extends HttpServlet {
                     LocalDateTime startDateTime = DateTimeUtil.toLocalDateTime(startDate, startTime);
                     LocalDateTime endDateTime = DateTimeUtil.toLocalDateTime(endDate, endTime);
 
-                    withExceeded = mealController.getAll(startDateTime, endDateTime);
+                    withExceeded = mealController.getFiltered(startDateTime, endDateTime);
                 } else {
                     withExceeded = mealController.getAll();
                 }

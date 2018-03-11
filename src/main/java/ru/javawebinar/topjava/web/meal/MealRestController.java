@@ -34,17 +34,10 @@ public class MealRestController {
         return withExceeded;
     }
 
-    public List<MealWithExceed> getAll(LocalDateTime start, LocalDateTime end) {
+    public List<MealWithExceed> getFiltered(LocalDateTime start, LocalDateTime end) {
       int userId = AuthorizedUser.getId();
-      Collection<Meal> meals = service.getAll(userId);
-      List<Meal> collect = meals.stream()
-              .filter(meal -> {
-                LocalDateTime dateTime = meal.getDateTime();
-                return DateTimeUtil.isBetween(dateTime, start, end);
-              })
-              .collect(Collectors.toList());
-
-      List<MealWithExceed> withExceeded = MealsUtil.getWithExceeded(collect, MealsUtil.DEFAULT_CALORIES_PER_DAY);
+      Collection<Meal> filteredMeals = service.getFiltered(userId, start, end);
+      List<MealWithExceed> withExceeded = MealsUtil.getWithExceeded(filteredMeals, MealsUtil.DEFAULT_CALORIES_PER_DAY);
       withExceeded.sort((o1, o2) -> {
                 LocalDateTime dateTime1 = o1.getDateTime();
                 LocalDateTime dateTime2 = o2.getDateTime();
@@ -69,9 +62,8 @@ public class MealRestController {
         service.delete(userId, id);
     }
 
-    public void update(Meal meal, int id) {
+    public void update(Meal meal) {
         int userId = AuthorizedUser.getId();
-        assureIdConsistent(meal, id);
         service.update(userId, meal);
     }
 }
