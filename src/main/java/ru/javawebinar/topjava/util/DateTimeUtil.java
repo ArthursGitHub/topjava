@@ -11,7 +11,17 @@ public class DateTimeUtil {
         return lt.compareTo(startTime) >= 0 && lt.compareTo(endTime) <= 0;
     }
 
+    public static boolean isBetween(LocalDateTime lt, LocalDateTime startTime, LocalDateTime endTime) {
+        return lt.compareTo(startTime) >= 0 && lt.compareTo(endTime) <= 0;
+    }
+
     public static String toString(LocalDateTime ldt) {
         return ldt == null ? "" : ldt.format(DATE_TIME_FORMATTER);
+    }
+
+    public static LocalDateTime toLocalDateTime(String startDate, String startTime) {
+        String s = startDate + " " + startTime;
+        LocalDateTime formatDateTime = LocalDateTime.parse(s, DATE_TIME_FORMATTER);
+        return formatDateTime;
     }
 }

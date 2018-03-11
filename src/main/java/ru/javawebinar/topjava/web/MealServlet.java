@@ -4,8 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealWithExceed;
+import ru.javawebinar.topjava.util.DateTimeUtil;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 
 import javax.servlet.ServletConfig;
@@ -67,7 +69,29 @@ public class MealServlet extends HttpServlet {
             case "all":
             default:
                 log.info("getAll");
-                List<MealWithExceed> withExceeded = mealController.getAll();
+
+                String user_id = request.getParameter("user_id");
+                if (user_id != null) {
+                    int i = Integer.parseInt(user_id);
+                    if (i < 2) {
+                        AuthorizedUser.setId(i);
+                    }
+                }
+                String startDate = request.getParameter("startDate");
+                String startTime = request.getParameter("startTime");
+                String endDate = request.getParameter("endDate");
+                String endTime = request.getParameter("endTime");
+
+                List<MealWithExceed> withExceeded;
+                if (startDate != null && startTime!=null && endDate!=null && endTime!=null) {
+                    LocalDateTime startDateTime = DateTimeUtil.toLocalDateTime(startDate, startTime);
+                    LocalDateTime endDateTime = DateTimeUtil.toLocalDateTime(endDate, endTime);
+
+                    withExceeded = mealController.getAll(startDateTime, endDateTime);
+                } else {
+                    withExceeded = mealController.getAll();
+                }
+
                 request.setAttribute("meals", withExceeded);
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 break;
