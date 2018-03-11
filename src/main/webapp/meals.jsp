@@ -20,7 +20,27 @@
 <section>
     <h3><a href="index.html">Home</a></h3>
     <h2>Meals</h2>
-    <a href="meals?action=create">Add Meal</a>
+
+    <div>
+        <label for="startDate">От даты:</label>
+        <input name="startDate" id="startDate" value="2015-05-31">
+        <label for="startTime">От времени:</label>
+        <input name="startTime" id="startTime" value="13:00">
+    </div>
+    <div>
+        <label for="endDate">До даты:</label>
+        <input name="endDate" id="endDate" value="2015-05-31">
+        <label for="endTime">До времени:</label>
+        <input name="endTime" id="endTime" value="21:00">
+    </div>
+
+    <div>
+        <a href="meals">Filter meal</a>
+    </div>
+    <div>
+        <a href="meals?action=create">Add Meal</a>
+    </div>
+
     <hr/>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
