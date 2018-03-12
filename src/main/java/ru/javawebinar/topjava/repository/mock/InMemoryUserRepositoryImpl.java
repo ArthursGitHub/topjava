@@ -7,9 +7,7 @@ import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 import ru.javawebinar.topjava.util.UserUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -19,6 +17,12 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     private Map<Integer, User> repository = new ConcurrentHashMap<>();
     private AtomicInteger counter = new AtomicInteger(0);
 
+    private static final Comparator<User> USER_COMPARATOR = (user1, user2) -> {
+        String userName1 = user1.getName();
+        String userName2 = user2.getName();
+        return userName1.compareTo(userName2);
+    };
+
     {
         UserUtils.USERS.forEach(this::save);
     }
@@ -26,8 +30,7 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     @Override
     public boolean delete(int id) {
         log.info("delete {}", id);
-        User remove = repository.remove(id);
-        return (remove != null);
+        return (repository.remove(id) != null);
     }
 
     @Override
@@ -52,11 +55,7 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     public List<User> getAll() {
         log.info("getAll");
         ArrayList<User> users = new ArrayList<>(repository.values());
-        users.sort((user1, user2) -> {
-            String name1 = user1.getName();
-            String name2 = user2.getName();
-            return name1.compareTo(name2);
-        });
+        users.sort(USER_COMPARATOR);
         return users;
     }
 
@@ -64,13 +63,11 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     public User getByEmail(String email) {
         log.info("getByEmail {}", email);
 
-        List<User> allUsers = getAll();
-        for (User user : allUsers) {
-            String userEmail = user.getEmail();
-            if (email.equals(userEmail)) {
-                return user;
-            }
-        }
-        return null;
+        Optional<User> userObject = getAll()
+                .stream()
+                .filter(user -> user.getEmail().equals(email))
+                .findFirst();
+
+        return userObject.isPresent() ? userObject.get() : null;
     }
 }

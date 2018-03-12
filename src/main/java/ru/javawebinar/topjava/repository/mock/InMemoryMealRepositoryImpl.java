@@ -23,7 +23,7 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
         final Integer[] mealId = {0};
 
         MealsUtil.MEALS.forEach(meal -> {
-                    int userId = mealId[0] / 3;
+                    int userId = mealId[0] / 6;
                     save(userId, meal);
                     mealId[0]++;
                 }
@@ -52,8 +52,7 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
         if (userRepo == null) {
             return false;
         }
-        userRepo.remove(id);
-        return true;
+        return (userRepo.remove(id) != null);
     }
 
     @Override
