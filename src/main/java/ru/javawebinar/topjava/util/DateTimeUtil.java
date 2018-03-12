@@ -1,5 +1,7 @@
 package ru.javawebinar.topjava.util;
 
+import org.springframework.util.StringUtils;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -27,10 +29,18 @@ public class DateTimeUtil {
     }
 
     public static LocalDate toLocalDate(String date) {
-        return LocalDate.parse(date, DATE_FORMATTER);
+        if (StringUtils.isEmpty(date)) {
+            return null;
+        } else {
+            return LocalDate.parse(date, DATE_FORMATTER);
+        }
     }
 
     public static LocalTime toLocalTime(String time) {
-        return LocalTime.parse(time, TIME_FORMATTER);
+        if (StringUtils.isEmpty(time)) {
+            return null;
+        } else {
+            return LocalTime.parse(time, TIME_FORMATTER);
+        }
     }
 }
