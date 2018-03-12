@@ -5,7 +5,8 @@ import org.springframework.stereotype.Service;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -47,9 +48,8 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public Collection<Meal> getFiltered(int userId, LocalDateTime start, LocalDateTime end) {
-        Collection<Meal> filteredMeals = repository.getFiltered(userId, start, end);
+    public Collection<Meal> getFiltered(int userId, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
+        Collection<Meal> filteredMeals = repository.getFiltered(userId, startDate, endDate, startTime, endTime);
         return (filteredMeals == null) ? Collections.EMPTY_LIST : filteredMeals;
     }
-
 }
