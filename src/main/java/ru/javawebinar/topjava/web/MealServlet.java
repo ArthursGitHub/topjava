@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealWithExceed;
 import ru.javawebinar.topjava.util.DateTimeUtil;
@@ -70,14 +69,6 @@ public class MealServlet extends HttpServlet {
             case "all":
             default:
                 log.info("getAll");
-
-                String user_id = request.getParameter("user_id");
-                if (user_id != null) {
-                    int i = Integer.parseInt(user_id);
-                    if (i < 2) {
-                        AuthorizedUser.setId(i);
-                    }
-                }
                 String startDate = request.getParameter("startDate");
                 String startTime = request.getParameter("startTime");
                 String endDate = request.getParameter("endDate");
