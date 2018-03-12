@@ -41,6 +41,14 @@ public class MealRestController {
 
   public List<MealWithExceed> getFiltered(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
       int userId = AuthorizedUser.getId();
+
+      if (startTime == null) {
+        startTime = LocalTime.MIN;
+      }
+      if (endTime == null) {
+        startTime = LocalTime.MAX;
+      }
+
       Collection<Meal> filteredMeals = service.getFiltered(userId, startDate, endDate, startTime, endTime);
       List<MealWithExceed> withExceeded = MealsUtil.getWithExceeded(filteredMeals, MealsUtil.DEFAULT_CALORIES_PER_DAY);
       withExceeded.sort(MEAL_COMPARATOR);
