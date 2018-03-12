@@ -4,9 +4,12 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
+import ru.javawebinar.topjava.to.MealWithExceed;
+import ru.javawebinar.topjava.web.meal.MealRestController;
 import ru.javawebinar.topjava.web.user.AdminRestController;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class SpringMain {
     public static void main(String[] args) {
@@ -16,6 +19,10 @@ public class SpringMain {
 
             AdminRestController adminUserController = appCtx.getBean(AdminRestController.class);
             adminUserController.create(new User(null, "userName", "email", "password", Role.ROLE_ADMIN));
+
+            MealRestController mealRestBean = appCtx.getBean(MealRestController.class);
+            List<MealWithExceed> mealList = mealRestBean.getAll();
+            mealList.forEach(mealWithExceed -> System.out.println(mealWithExceed.toString()));
         }
     }
 }
