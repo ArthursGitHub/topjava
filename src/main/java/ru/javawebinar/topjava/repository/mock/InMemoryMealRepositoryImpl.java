@@ -5,11 +5,13 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.DateTimeUtil;
 import ru.javawebinar.topjava.util.MealsUtil;
+import ru.javawebinar.topjava.util.UserUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -22,9 +24,11 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
 
     {
         final Integer[] mealId = {0};
+        final int users_size = UserUtils.USERS.size();
+        final int meals_size = MealsUtil.MEALS.size();
 
         MealsUtil.MEALS.forEach(meal -> {
-                    int userId = mealId[0] / 6;
+                    int userId = mealId[0] / (meals_size/users_size);
                     save(userId, meal);
                     mealId[0]++;
                 }
@@ -39,37 +43,29 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
         }
         if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
-            userRepo.computeIfAbsent(meal.getId(), i -> meal);
-            return meal;
+            return userRepo.computeIfAbsent(meal.getId(), i -> meal);
         }
         // treat case: update, but absent in storage
-        userRepo.computeIfPresent(meal.getId(), (i, meal1) -> meal);
-        return meal;
+        return userRepo.computeIfPresent(meal.getId(), (i, meal1) -> meal);
     }
 
     @Override
     public boolean delete(int userId, int id) {
         Map<Integer, Meal> userRepo = repo.get(userId);
-        if (userRepo == null) {
-            return false;
-        }
-        return (userRepo.remove(id) != null);
+        return userRepo != null && (userRepo.remove(id) != null);
     }
 
     @Override
     public Meal get(int userId, int id) {
         Map<Integer, Meal> userRepo = repo.get(userId);
-        if (userRepo == null) {
-            return null;
-        }
-        return userRepo.get(id);
+        return (userRepo == null) ? null : userRepo.get(id);
     }
 
     @Override
     public Collection<Meal> getAll(int userId) {
         Map<Integer, Meal> userRepo = repo.get(userId);
         if (userRepo == null) {
-            return null;
+            return Collections.EMPTY_LIST;
         }
         return userRepo.values();
     }
