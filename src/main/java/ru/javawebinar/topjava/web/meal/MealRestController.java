@@ -41,7 +41,13 @@ public class MealRestController {
         startTime = LocalTime.MIN;
       }
       if (endTime == null) {
-        startTime = LocalTime.MAX;
+        endTime = LocalTime.MAX;
+      }
+      if (startDate == null) {
+        startDate = LocalDate.MIN;
+      }
+      if (endDate == null) {
+        endDate = LocalDate.MAX;
       }
 
       Collection<Meal> filteredMeals = service.getFiltered(userId, startDate, endDate, startTime, endTime);

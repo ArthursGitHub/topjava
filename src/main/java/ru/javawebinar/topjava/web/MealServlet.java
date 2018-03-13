@@ -74,14 +74,10 @@ public class MealServlet extends HttpServlet {
                 String endDate = request.getParameter("endDate");
                 String endTime = request.getParameter("endTime");
 
-                List<MealWithExceed> withExceeded;
-                if (startDate != null && endDate != null) {
-                    withExceeded = mealController.getFiltered(DateTimeUtil.toLocalDate(startDate), DateTimeUtil.toLocalDate(endDate),
-                            DateTimeUtil.toLocalTime(startTime), DateTimeUtil.toLocalTime(endTime));
-                } else {
-                    withExceeded = mealController.getAll();
-                }
-
+                List<MealWithExceed> withExceeded = mealController.getFiltered(
+                        DateTimeUtil.toLocalDate(startDate), DateTimeUtil.toLocalDate(endDate),
+                        DateTimeUtil.toLocalTime(startTime), DateTimeUtil.toLocalTime(endTime)
+                );
                 request.setAttribute("meals", withExceeded);
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 break;

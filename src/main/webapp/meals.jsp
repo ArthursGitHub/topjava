@@ -24,9 +24,9 @@
     <form action="meals" method="GET">
         <div>
             <label for="startDate">От даты:</label>
-            <input name="startDate" id="startDate" value="2015-05-30">
+            <input name="startDate" id="startDate" value="2015-05-25">
             <label for="startTime">От времени:</label>
-            <input name="startTime" id="startTime" value="13:00">
+            <input name="startTime" id="startTime" value="08:00">
         </div>
         <div>
             <label for="endDate">До даты:</label>
