@@ -11,17 +11,16 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static java.util.Comparator.comparing;
+
 @Repository
 public class InMemoryUserRepositoryImpl implements UserRepository {
     private static final Logger log = LoggerFactory.getLogger(InMemoryUserRepositoryImpl.class);
     private Map<Integer, User> repository = new ConcurrentHashMap<>();
     private AtomicInteger counter = new AtomicInteger(0);
 
-    private static final Comparator<User> USER_COMPARATOR = (user1, user2) -> {
-        String userName1 = user1.getName();
-        String userName2 = user2.getName();
-        return userName1.compareTo(userName2);
-    };
+    private static final Comparator<User> USER_COMPARATOR_BY_NAME = comparing(User::getName);
+    private static final Comparator<User> USER_COMPARATOR_BY_ID = comparing(User::getId);
 
     {
         UserUtils.USERS.forEach(this::save);
@@ -55,7 +54,8 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     public List<User> getAll() {
         log.info("getAll");
         ArrayList<User> users = new ArrayList<>(repository.values());
-        users.sort(USER_COMPARATOR);
+        users.sort(USER_COMPARATOR_BY_NAME);
+        users.sort(USER_COMPARATOR_BY_ID);
         return users;
     }
 
