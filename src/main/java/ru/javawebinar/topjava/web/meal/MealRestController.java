@@ -19,12 +19,7 @@ import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
 
 @Controller
 public class MealRestController {
-    private static final Comparator<MealWithExceed> MEAL_COMPARATOR = (meal1, meal2) -> {
-      LocalDateTime dateTime1 = meal1.getDateTime();
-      LocalDateTime dateTime2 = meal2.getDateTime();
-      return -dateTime1.compareTo(dateTime2);
-    };
-
+    private static final Comparator<MealWithExceed> MEAL_COMPARATOR = Comparator.comparing(MealWithExceed::getDateTime).reversed();
     private final MealService service;
 
   @Autowired

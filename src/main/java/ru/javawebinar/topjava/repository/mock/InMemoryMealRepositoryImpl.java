@@ -73,6 +73,9 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     @Override
     public Collection<Meal> getFiltered(int userId, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
         Collection<Meal> meals = getAll(userId);
+        if (meals == null) {
+            return Collections.EMPTY_LIST;
+        }
         return meals.stream()
                 .filter(meal -> {
                     LocalDateTime dateTime = meal.getDateTime();
