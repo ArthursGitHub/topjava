@@ -2,6 +2,7 @@ package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
 import ru.javawebinar.topjava.AuthorizedUser;
+import ru.javawebinar.topjava.util.UserUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +22,8 @@ public class UserServlet extends HttpServlet {
         String user_id = request.getParameter("user_id");
         if (user_id != null) {
             int id = Integer.parseInt(user_id);
-            if (id >= 2) {
+            final int users_size = UserUtils.USERS.size();
+            if (id >= users_size) {
                 id = 0;
             }
             AuthorizedUser.setId(id);

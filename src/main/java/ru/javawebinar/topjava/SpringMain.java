@@ -4,6 +4,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
+import ru.javawebinar.topjava.repository.mock.InMemoryUserRepositoryImpl;
 import ru.javawebinar.topjava.to.MealWithExceed;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 import ru.javawebinar.topjava.web.user.AdminRestController;
@@ -23,6 +24,14 @@ public class SpringMain {
             MealRestController mealRestBean = appCtx.getBean(MealRestController.class);
             List<MealWithExceed> mealList = mealRestBean.getAll();
             mealList.forEach(mealWithExceed -> System.out.println(mealWithExceed.toString()));
+
+            System.out.println("---------------------------------------------");
+            InMemoryUserRepositoryImpl userRepoBean = appCtx.getBean(InMemoryUserRepositoryImpl.class);
+            List<User> users = userRepoBean.getAll();
+            for (User user : users) {
+                System.out.println(user.toString());
+            }
+            System.out.println("---------------------------------------------");
         }
     }
 }
