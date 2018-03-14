@@ -44,12 +44,12 @@ public class MealServiceImpl implements MealService {
     @Override
     public Collection<Meal> getAll(int userId) {
         Collection<Meal> meals = repository.getAll(userId);
-        return (meals == null) ? Collections.EMPTY_LIST : meals;
+        return (meals == null) ? Collections.emptyList() : meals;
     }
 
     @Override
     public Collection<Meal> getFiltered(int userId, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
         Collection<Meal> filteredMeals = repository.getFiltered(userId, startDate, endDate, startTime, endTime);
-        return (filteredMeals == null) ? Collections.EMPTY_LIST : filteredMeals;
+        return (filteredMeals == null) ? Collections.emptyList() : filteredMeals;
     }
 }

@@ -65,7 +65,7 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     public Collection<Meal> getAll(int userId) {
         Map<Integer, Meal> userRepo = repo.get(userId);
         if (userRepo == null) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
         return userRepo.values();
     }
@@ -74,7 +74,7 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     public Collection<Meal> getFiltered(int userId, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
         Collection<Meal> meals = getAll(userId);
         if (meals == null) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
         return meals.stream()
                 .filter(meal -> {
