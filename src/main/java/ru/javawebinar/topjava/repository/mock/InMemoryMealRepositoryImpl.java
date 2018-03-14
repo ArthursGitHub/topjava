@@ -22,16 +22,9 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     private AtomicInteger counter = new AtomicInteger(0);
 
     {
-        final Integer[] mealId = {0};
-        final int users_size = UserUtils.USERS.size();
-        final int meals_size = MealsUtil.MEALS.size();
-
-        MealsUtil.MEALS.forEach(meal -> {
-                    int userId = mealId[0] / (meals_size/users_size);
-                    save(userId, meal);
-                    mealId[0]++;
-                }
-        );
+        MealsUtil.MEALS0.forEach(meal -> save(0, meal));
+        MealsUtil.MEALS1.forEach(meal -> save(1, meal));
+        MealsUtil.MEALS2.forEach(meal -> save(2, meal));
     }
 
     @Override
