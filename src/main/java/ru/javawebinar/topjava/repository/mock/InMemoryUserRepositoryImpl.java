@@ -18,14 +18,6 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     private static final Logger log = LoggerFactory.getLogger(InMemoryUserRepositoryImpl.class);
     private Map<Integer, User> repository = new ConcurrentHashMap<>();
     private AtomicInteger counter = new AtomicInteger(0);
-
-    private static final Comparator<User> USER_COMPARATOR_BY_NAME = comparing(User::getName);
-    private static final Comparator<User> USER_COMPARATOR_BY_ID = comparing(User::getId);
-    private static final Comparator<User> USER_COMPARATOR = (user1, user2) -> {
-        String userName1 = user1.getName();
-        String userName2 = user2.getName();
-        return !userName1.equals(userName2) ? userName1.compareTo(userName2) : user1.getId().compareTo(user2.getId());
-    };
     private static final Comparator<User> USER_COMPARATOR_BY_NAME_BY_ID = Comparator
             .comparing(User::getName)
             .thenComparing(User::getId);
