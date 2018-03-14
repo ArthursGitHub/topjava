@@ -9,7 +9,6 @@ import ru.javawebinar.topjava.util.UserUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -71,7 +70,7 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public Collection<Meal> getFiltered(int userId, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
+    public Collection<Meal> getFiltered(int userId, LocalDate startDate, LocalDate endDate) {
         Collection<Meal> meals = getAll(userId);
         if (meals == null) {
             return Collections.emptyList();
@@ -80,10 +79,6 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
                 .filter(meal -> {
                     LocalDateTime dateTime = meal.getDateTime();
                     return DateTimeUtil.isBetween(dateTime.toLocalDate(), startDate, endDate);
-                })
-                .filter(meal -> {
-                    LocalDateTime dateTime = meal.getDateTime();
-                    return DateTimeUtil.isBetween(dateTime.toLocalTime(), startTime, endTime);
                 })
                 .collect(Collectors.toList());
     }

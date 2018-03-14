@@ -6,6 +6,7 @@ import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.to.MealWithExceed;
+import ru.javawebinar.topjava.util.DateTimeUtil;
 import ru.javawebinar.topjava.util.MealsUtil;
 
 import java.time.LocalDate;
@@ -14,6 +15,7 @@ import java.time.LocalTime;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
 
@@ -50,10 +52,22 @@ public class MealRestController {
         endDate = LocalDate.MAX;
       }
 
-      Collection<Meal> filteredMeals = service.getFiltered(userId, startDate, endDate, startTime, endTime);
-      List<MealWithExceed> withExceeded = MealsUtil.getWithExceeded(filteredMeals, MealsUtil.DEFAULT_CALORIES_PER_DAY);
-      withExceeded.sort(MEAL_COMPARATOR);
-      return withExceeded;
+      Collection<Meal> filteredMeals = service.getFiltered(userId, startDate, endDate);
+      List<MealWithExceed> withExceededList = MealsUtil.getWithExceeded(filteredMeals, MealsUtil.DEFAULT_CALORIES_PER_DAY);
+
+      LocalTime finalStartTime = startTime;
+      LocalTime finalEndTime = endTime;
+
+      List<MealWithExceed> filteredWithExceededList = withExceededList
+              .stream()
+              .filter(meal -> {
+                        LocalDateTime dateTime = meal.getDateTime();
+                        return DateTimeUtil.isBetween(dateTime.toLocalTime(), finalStartTime, finalEndTime);
+                      }
+              )
+              .collect(Collectors.toList());
+      filteredWithExceededList.sort(MEAL_COMPARATOR);
+      return filteredWithExceededList;
     }
 
     public Meal get(int id) {
