@@ -7,17 +7,11 @@ import java.util.*;
 import static ru.javawebinar.topjava.util.MealsUtil.DEFAULT_CALORIES_PER_DAY;
 
 public class User extends AbstractNamedEntity {
-
     private String email;
-
     private String password;
-
     private boolean enabled = true;
-
     private Date registered = new Date();
-
     private Set<Role> roles;
-
     private int caloriesPerDay = DEFAULT_CALORIES_PER_DAY;
 
     public User() {
@@ -44,11 +38,13 @@ public class User extends AbstractNamedEntity {
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
     public void setPassword(String password) {
         this.password = password;
     }
@@ -56,11 +52,13 @@ public class User extends AbstractNamedEntity {
     public Date getRegistered() {
         return registered;
     }
-
     public void setRegistered(Date registered) {
         this.registered = registered;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
@@ -68,23 +66,13 @@ public class User extends AbstractNamedEntity {
     public int getCaloriesPerDay() {
         return caloriesPerDay;
     }
-
     public void setCaloriesPerDay(int caloriesPerDay) {
         this.caloriesPerDay = caloriesPerDay;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
     }
 
     public Set<Role> getRoles() {
         return roles;
     }
-
-    public String getPassword() {
-        return password;
-    }
-
     public void setRoles(Collection<Role> roles) {
         this.roles = CollectionUtils.isEmpty(roles) ? Collections.emptySet() : EnumSet.copyOf(roles);
     }
