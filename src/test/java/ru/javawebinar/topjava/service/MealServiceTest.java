@@ -34,7 +34,7 @@ public class MealServiceTest {
   @Test
   public void get() throws Exception {
 // ------------   User meal -----------
-    Meal meal = service.get(MEAL_ID + 0, USER_ID);
+    Meal meal = service.get(MEAL00.getId(), USER_ID);
     assertMatch(meal, MEAL00);
   }
 
@@ -59,7 +59,7 @@ public class MealServiceTest {
 
   @Test
   public void delete() throws Exception {
-    service.delete(MEAL_ID + 2, USER_ID); // remove meal with id=MEAL_ID+2
+    service.delete(MEAL02.getId(), USER_ID); // remove meal with id=MEAL_ID+2
 
     List<Meal> meals = service.getAll(USER_ID);
     assertMatch(meals, MEAL00, MEAL01, /*MEAL02,*/ MEAL10, MEAL11, MEAL12);  // check that this meal is absent in list
@@ -95,26 +95,23 @@ public class MealServiceTest {
   @Test(expected = NotFoundException.class)
   public void getNotFoundUserId() throws Exception {
 //    Incorrect userId
-    service.get(MEAL_ID + 1, ADMIN_ID + 10);
+    service.get(MEAL01.getId(), ADMIN_ID + 10);
   }
 
   @Test(expected = NotFoundException.class)
   public void incorrectCallGet() throws Exception {
 //    Getting meal with correct parameters and incorrect
-    service.get(MEAL_ID + 3, USER_ID);   // it's correct call
-    service.get(MEAL_ID + 3, ADMIN_ID);  // it's incorrect call
+    service.get(MEAL10.getId(), ADMIN_ID);  // it's incorrect call
   }
 
   @Test(expected = NotFoundException.class)
   public void incorrectCallDelete() throws Exception {
 //    Getting meal with correct parameters and incorrect
-    service.delete(MEAL_ID + 3, USER_ID);   // it's correct call
-    service.delete(MEAL_ID + 3, ADMIN_ID);  // it's incorrect call
+    service.delete(MEAL10.getId(), ADMIN_ID);  // it's incorrect call
   }
 
   @Test(expected = NotFoundException.class)
   public void incorrectCallUpdate() throws Exception {
-    Meal meal = service.get(MEAL_ID + 3, USER_ID);
-    service.update(meal, ADMIN_ID);   // it's incorrect call
+    service.update(MEAL10, ADMIN_ID);   // it's incorrect call
   }
 }
