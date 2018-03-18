@@ -25,23 +25,15 @@ public class MealTestData {
   public static final LocalDateTime dt11 = LocalDateTime.of(2015, 5, 31, 13, 0);
   public static final LocalDateTime dt12 = LocalDateTime.of(2015, 5, 31, 20, 0);
 
-  public static final LocalDateTime dt20 = LocalDateTime.of(2015, 5, 27, 10, 0);
-  public static final LocalDateTime dt21 = LocalDateTime.of(2015, 5, 27, 13, 0);
-  public static final LocalDateTime dt22 = LocalDateTime.of(2015, 5, 27, 20, 0);
-
-  public static final LocalDateTime dt30 = LocalDateTime.of(2015, 5, 28, 10, 0);
-  public static final LocalDateTime dt31 = LocalDateTime.of(2015, 5, 28, 13, 0);
-  public static final LocalDateTime dt32 = LocalDateTime.of(2015, 5, 28, 20, 0);
-
-  public static final String BREAKFAST = "Завтрак";
-  public static final String LUNCH = "Обед";
-  public static final String SUPPER = "Ужин";
-  public static final int BREAKFAST_COLORIES1 = 500;
-  public static final int LUNCH_COLORIES1 = 1000;
-  public static final int SUPPER_COLORIES1 = 500;
-  public static final int BREAKFAST_COLORIES2 = 1000;
-  public static final int LUNCH_COLORIES2 = 500;
-  public static final int SUPPER_COLORIES2 = 510;
+  private static String BREAKFAST = "Завтрак";
+  private static String LUNCH = "Обед";
+  private static String SUPPER = "Ужин";
+  private static int BREAKFAST_COLORIES1 = 500;
+  private static int LUNCH_COLORIES1 = 1000;
+  private static int SUPPER_COLORIES1 = 500;
+  private static int BREAKFAST_COLORIES2 = 1000;
+  private static int LUNCH_COLORIES2 = 500;
+  private static int SUPPER_COLORIES2 = 510;
 
   public static final Meal MEAL00 = new Meal(MEAL_ID + 0, dt00, BREAKFAST, BREAKFAST_COLORIES1);
   public static final Meal MEAL01 = new Meal(MEAL_ID + 1, dt01, LUNCH, LUNCH_COLORIES1);
@@ -50,19 +42,6 @@ public class MealTestData {
   public static final Meal MEAL10 = new Meal(MEAL_ID + 3, dt10, BREAKFAST, BREAKFAST_COLORIES2);
   public static final Meal MEAL11 = new Meal(MEAL_ID + 4, dt11, LUNCH, LUNCH_COLORIES2);
   public static final Meal MEAL12 = new Meal(MEAL_ID + 5, dt12, SUPPER, SUPPER_COLORIES2);
-
-  public static final Meal MEAL20 = new Meal(MEAL_ID + 6, dt20, BREAKFAST, BREAKFAST_COLORIES1);
-  public static final Meal MEAL21 = new Meal(MEAL_ID + 7, dt21, LUNCH, LUNCH_COLORIES1);
-  public static final Meal MEAL22 = new Meal(MEAL_ID + 8, dt22, SUPPER, SUPPER_COLORIES1);
-
-  public static final Meal MEAL30 = new Meal(MEAL_ID + 9, dt30, BREAKFAST, BREAKFAST_COLORIES2);
-  public static final Meal MEAL31 = new Meal(MEAL_ID + 10, dt31, LUNCH, LUNCH_COLORIES2);
-  public static final Meal MEAL32 = new Meal(MEAL_ID + 11, dt32, SUPPER, SUPPER_COLORIES2);
-
-  public static final LocalDateTime dtTest0 = LocalDateTime.of(2010, 01, 04, 12, 0);
-  public static final String DESCRIPTION0 = "пица";
-  public static final int COLORIES0 = 1580;
-  public static final Meal MEAL_TEST0 = new Meal(dtTest0, DESCRIPTION0, COLORIES0);
 
 
   public static void assertMatch(Meal actual, Meal expected) {
@@ -77,9 +56,5 @@ public class MealTestData {
     List<Meal> meals = Arrays.asList(expected);
     Collections.reverse(meals);
     assertMatch(actual, meals);
-  }
-
-  public static void assertMatchIgnoreId(Meal actual, Meal expected) {
-    assertThat(actual).isEqualToIgnoringGivenFields(expected, "id");
   }
 }

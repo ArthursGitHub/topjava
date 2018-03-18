@@ -13,11 +13,9 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
 import static ru.javawebinar.topjava.UserTestData.USER_ID;
-import static ru.javawebinar.topjava.MealTestData.assertMatch;
 
 /**
  * Created by arthur on 3/16/18.
@@ -68,22 +66,21 @@ public class MealServiceTest {
 
   @Test
   public void update() throws Exception {
-    Meal meal = service.get(MEAL_ID + 3, USER_ID);
+    Meal modifiedMeal = service.get(MEAL_ID, USER_ID);
 
-    meal.setDateTime(MEAL_TEST0.getDateTime());
-    meal.setCalories(MEAL_TEST0.getCalories());
-    meal.setDescription(MEAL_TEST0.getDescription());
+    Meal newMeal = new Meal(MEAL_ID, modifiedMeal.getDateTime(), modifiedMeal.getDescription(), modifiedMeal.getCalories());
+    newMeal.setDescription("Новое описание");
+    newMeal.setCalories(200);
 
-    service.update(meal, USER_ID);   // meal with id=MEAL_ID+3 is updated. Parameters of meal are taken from MEAL_TEST0
-    Meal updatedMeal = service.get(MEAL_ID + 3, USER_ID);
-    assertMatchIgnoreId(updatedMeal, MEAL_TEST0);  // check that meal is updated
+    Meal updated = service.update(newMeal, USER_ID);// meal with id=MEAL_ID is updated. Parameters of meal are taken from MEAL_TEST0
+    assertMatch(updated, newMeal);  // check that meal is updated
   }
 
   @Test
   public void create() throws Exception {
     List<Meal> meals = service.getAll(USER_ID);
     assertMatch(meals, MEAL00, MEAL01, MEAL02, MEAL10, MEAL11, MEAL12);  // MEAL00 is created
-    service.create(MEAL_TEST0, USER_ID);
+//    service.create(MEAL_TEST0, USER_ID);
   }
 
   @Test(expected = NotFoundException.class)
@@ -115,11 +112,6 @@ public class MealServiceTest {
   @Test(expected = NotFoundException.class)
   public void incorrectCallUpdate() throws Exception {
     Meal meal = service.get(MEAL_ID + 3, USER_ID);
-
-    meal.setDateTime(MEAL_TEST0.getDateTime());
-    meal.setCalories(MEAL_TEST0.getCalories());
-    meal.setDescription(MEAL_TEST0.getDescription());
-
     service.update(meal, ADMIN_ID);   // it's incorrect call
   }
 }
