@@ -59,7 +59,7 @@ public class MealServiceTest {
 
   @Test
   public void delete() throws Exception {
-    service.delete(MEAL02.getId(), USER_ID); // remove meal with id=MEAL_ID+2
+    service.delete(MEAL02.getId(), USER_ID);
 
     List<Meal> meals = service.getAll(USER_ID);
     assertMatch(meals, MEAL00, MEAL01, /*MEAL02,*/ MEAL10, MEAL11, MEAL12);  // check that this meal is absent in list
