@@ -37,11 +37,7 @@ public class MealServiceTest {
 // ------------   User meal -----------
     Meal meal = service.get(MEAL_ID + 0, USER_ID);
     assertMatch(meal, MEAL00);
-// ------------   Admin meal -----------
-    meal = service.get(MEAL_ID + 6, ADMIN_ID);
-    assertMatch(meal, MEAL20);
   }
-
 
   @Test
   public void getBetweenDates() throws Exception {
@@ -60,26 +56,19 @@ public class MealServiceTest {
   public void getAll() throws Exception {
     List<Meal> meals = service.getAll(USER_ID);
     assertMatch(meals, MEAL00, MEAL01, MEAL02, MEAL10, MEAL11, MEAL12);  // get all user meat and check it
-
-    meals = service.getAll(ADMIN_ID);
-    assertMatch(meals, MEAL20, MEAL21, MEAL22, MEAL30, MEAL31, MEAL32);  // get all admin meat and check it
   }
 
   @Test
   public void delete() throws Exception {
-    List<Meal> meals = service.getAll(USER_ID);
-    assertMatch(meals, MEAL00, MEAL01, MEAL02, MEAL10, MEAL11, MEAL12);  // check that all meals are present
-
     service.delete(MEAL_ID + 2, USER_ID); // remove meal with id=MEAL_ID+2
 
-    meals = service.getAll(USER_ID);
+    List<Meal> meals = service.getAll(USER_ID);
     assertMatch(meals, MEAL00, MEAL01, /*MEAL02,*/ MEAL10, MEAL11, MEAL12);  // check that this meal is absent in list
   }
 
   @Test
   public void update() throws Exception {
     Meal meal = service.get(MEAL_ID + 3, USER_ID);
-    assertMatch(meal, MEAL10);
 
     meal.setDateTime(MEAL_TEST0.getDateTime());
     meal.setCalories(MEAL_TEST0.getCalories());
@@ -95,9 +84,6 @@ public class MealServiceTest {
     List<Meal> meals = service.getAll(USER_ID);
     assertMatch(meals, MEAL00, MEAL01, MEAL02, MEAL10, MEAL11, MEAL12);  // MEAL00 is created
     service.create(MEAL_TEST0, USER_ID);
-
-    meals = service.getAll(USER_ID);
-    assertMatch(meals, MEAL_TEST0, MEAL00, MEAL01, MEAL02, MEAL10, MEAL11, MEAL12);  // MEAL00 is present in meal list
   }
 
   @Test(expected = NotFoundException.class)
@@ -129,7 +115,6 @@ public class MealServiceTest {
   @Test(expected = NotFoundException.class)
   public void incorrectCallUpdate() throws Exception {
     Meal meal = service.get(MEAL_ID + 3, USER_ID);
-    assertMatch(meal, MEAL10);
 
     meal.setDateTime(MEAL_TEST0.getDateTime());
     meal.setCalories(MEAL_TEST0.getCalories());
