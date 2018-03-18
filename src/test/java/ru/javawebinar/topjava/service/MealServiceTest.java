@@ -34,44 +34,12 @@ public class MealServiceTest {
 
   @Test
   public void get() throws Exception {
-    Meal meal;
 // ------------   User meal -----------
-    meal = service.get(MEAL_ID + 0, USER_ID);
+    Meal meal = service.get(MEAL_ID + 0, USER_ID);
     assertMatch(meal, MEAL00);
-
-    meal = service.get(MEAL_ID + 1, USER_ID);
-    assertMatch(meal, MEAL01);
-
-    meal = service.get(MEAL_ID + 2, USER_ID);
-    assertMatch(meal, MEAL02);
-
-    meal = service.get(MEAL_ID + 3, USER_ID);
-    assertMatch(meal, MEAL10);
-
-    meal = service.get(MEAL_ID + 4, USER_ID);
-    assertMatch(meal, MEAL11);
-
-    meal = service.get(MEAL_ID + 5, USER_ID);
-    assertMatch(meal, MEAL12);
-
 // ------------   Admin meal -----------
     meal = service.get(MEAL_ID + 6, ADMIN_ID);
     assertMatch(meal, MEAL20);
-
-    meal = service.get(MEAL_ID + 7, ADMIN_ID);
-    assertMatch(meal, MEAL21);
-
-    meal = service.get(MEAL_ID + 8, ADMIN_ID);
-    assertMatch(meal, MEAL22);
-
-    meal = service.get(MEAL_ID + 9, ADMIN_ID);
-    assertMatch(meal, MEAL30);
-
-    meal = service.get(MEAL_ID + 10, ADMIN_ID);
-    assertMatch(meal, MEAL31);
-
-    meal = service.get(MEAL_ID + 11, ADMIN_ID);
-    assertMatch(meal, MEAL32);
   }
 
 
@@ -90,9 +58,7 @@ public class MealServiceTest {
 
   @Test
   public void getAll() throws Exception {
-    List<Meal> meals;
-
-    meals = service.getAll(USER_ID);
+    List<Meal> meals = service.getAll(USER_ID);
     assertMatch(meals, MEAL00, MEAL01, MEAL02, MEAL10, MEAL11, MEAL12);  // get all user meat and check it
 
     meals = service.getAll(ADMIN_ID);
@@ -101,9 +67,7 @@ public class MealServiceTest {
 
   @Test
   public void delete() throws Exception {
-    List<Meal> meals;
-
-    meals = service.getAll(USER_ID);
+    List<Meal> meals = service.getAll(USER_ID);
     assertMatch(meals, MEAL00, MEAL01, MEAL02, MEAL10, MEAL11, MEAL12);  // check that all meals are present
 
     service.delete(MEAL_ID + 2, USER_ID); // remove meal with id=MEAL_ID+2
@@ -114,24 +78,21 @@ public class MealServiceTest {
 
   @Test
   public void update() throws Exception {
-    Meal meal, updatedMeal;
-
-    meal = service.get(MEAL_ID + 3, USER_ID);
+    Meal meal = service.get(MEAL_ID + 3, USER_ID);
     assertMatch(meal, MEAL10);
 
     meal.setDateTime(MEAL_TEST0.getDateTime());
     meal.setCalories(MEAL_TEST0.getCalories());
     meal.setDescription(MEAL_TEST0.getDescription());
 
-    updatedMeal = service.update(meal, USER_ID);   // meal with id=MEAL_ID+3 is updated. Parameters of meal are taken from MEAL_TEST0
+    service.update(meal, USER_ID);   // meal with id=MEAL_ID+3 is updated. Parameters of meal are taken from MEAL_TEST0
+    Meal updatedMeal = service.get(MEAL_ID + 3, USER_ID);
     assertMatchIgnoreId(updatedMeal, MEAL_TEST0);  // check that meal is updated
   }
 
   @Test
   public void create() throws Exception {
-    List<Meal> meals;
-
-    meals = service.getAll(USER_ID);
+    List<Meal> meals = service.getAll(USER_ID);
     assertMatch(meals, MEAL00, MEAL01, MEAL02, MEAL10, MEAL11, MEAL12);  // MEAL00 is created
     service.create(MEAL_TEST0, USER_ID);
 
@@ -167,9 +128,7 @@ public class MealServiceTest {
 
   @Test(expected = NotFoundException.class)
   public void incorrectCallUpdate() throws Exception {
-    Meal meal;
-
-    meal = service.get(MEAL_ID + 3, USER_ID);
+    Meal meal = service.get(MEAL_ID + 3, USER_ID);
     assertMatch(meal, MEAL10);
 
     meal.setDateTime(MEAL_TEST0.getDateTime());

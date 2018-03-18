@@ -17,21 +17,21 @@ import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
 public class MealTestData {
   public static final int MEAL_ID = ADMIN_ID + 1;
   
-  public static final LocalDateTime dt00 = LocalDateTime.of(2015, 05, 30, 10, 0);
-  public static final LocalDateTime dt01 = LocalDateTime.of(2015, 05, 30, 13, 0);
-  public static final LocalDateTime dt02 = LocalDateTime.of(2015, 05, 30, 20, 0);
+  public static final LocalDateTime dt00 = LocalDateTime.of(2015, 5, 30, 10, 0);
+  public static final LocalDateTime dt01 = LocalDateTime.of(2015, 5, 30, 13, 0);
+  public static final LocalDateTime dt02 = LocalDateTime.of(2015, 5, 30, 20, 0);
 
-  public static final LocalDateTime dt10 = LocalDateTime.of(2015, 05, 31, 10, 0);
-  public static final LocalDateTime dt11 = LocalDateTime.of(2015, 05, 31, 13, 0);
-  public static final LocalDateTime dt12 = LocalDateTime.of(2015, 05, 31, 20, 0);
+  public static final LocalDateTime dt10 = LocalDateTime.of(2015, 5, 31, 10, 0);
+  public static final LocalDateTime dt11 = LocalDateTime.of(2015, 5, 31, 13, 0);
+  public static final LocalDateTime dt12 = LocalDateTime.of(2015, 5, 31, 20, 0);
 
-  public static final LocalDateTime dt20 = LocalDateTime.of(2015, 05, 27, 10, 0);
-  public static final LocalDateTime dt21 = LocalDateTime.of(2015, 05, 27, 13, 0);
-  public static final LocalDateTime dt22 = LocalDateTime.of(2015, 05, 27, 20, 0);
+  public static final LocalDateTime dt20 = LocalDateTime.of(2015, 5, 27, 10, 0);
+  public static final LocalDateTime dt21 = LocalDateTime.of(2015, 5, 27, 13, 0);
+  public static final LocalDateTime dt22 = LocalDateTime.of(2015, 5, 27, 20, 0);
 
-  public static final LocalDateTime dt30 = LocalDateTime.of(2015, 05, 28, 10, 0);
-  public static final LocalDateTime dt31 = LocalDateTime.of(2015, 05, 28, 13, 0);
-  public static final LocalDateTime dt32 = LocalDateTime.of(2015, 05, 28, 20, 0);
+  public static final LocalDateTime dt30 = LocalDateTime.of(2015, 5, 28, 10, 0);
+  public static final LocalDateTime dt31 = LocalDateTime.of(2015, 5, 28, 13, 0);
+  public static final LocalDateTime dt32 = LocalDateTime.of(2015, 5, 28, 20, 0);
 
   public static final String BREAKFAST = "Завтрак";
   public static final String LUNCH = "Обед";
@@ -66,11 +66,11 @@ public class MealTestData {
 
 
   public static void assertMatch(Meal actual, Meal expected) {
-    assertThat(actual).isEqualToIgnoringGivenFields(expected);
+    assertThat(actual).isEqualToComparingFieldByField(expected);
   }
 
   public static void assertMatch(Iterable<Meal> actual, Iterable<Meal> expected) {
-    assertThat(actual).usingElementComparatorIgnoringFields().isEqualTo(expected);
+    assertThat(actual).usingFieldByFieldElementComparator().isEqualTo(expected);
   }
 
   public static void assertMatch(Iterable<Meal> actual, Meal... expected) {
