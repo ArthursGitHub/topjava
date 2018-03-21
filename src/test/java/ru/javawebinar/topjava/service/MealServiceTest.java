@@ -22,7 +22,6 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
  * Created by arthur on 3/16/18.
  */
 @ContextConfiguration({
-        "classpath:spring/spring-app.xml",
         "classpath:spring/spring-app-common.xml",
         "classpath:spring/spring-db.xml"
 })
