@@ -10,9 +10,9 @@ import java.time.LocalTime;
 
 @NamedQueries({
         @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.id=:id and m.user.id=:user_id"),
-        @NamedQuery(name = Meal.GET, query = "SELECT m FROM Meal m WHERE m.id=:id and m.user.id=:user_id"),
-        @NamedQuery(name = Meal.GET_ALL, query = "SELECT m FROM Meal m LEFT JOIN FETCH m.user where m.user.id=:user_id"),
-        @NamedQuery(name = Meal.GET_FILTERED_BY_DATE, query = "SELECT m FROM Meal m LEFT JOIN FETCH m.user where m.user.id=:user_id and m.dateTime>=:start_date and m.dateTime<=:end_date")
+        @NamedQuery(name = Meal.GET, query = "SELECT m FROM Meal m LEFT JOIN FETCH m.user WHERE m.id=:id and m.user.id=:user_id"),
+        @NamedQuery(name = Meal.GET_ALL, query = "SELECT m FROM Meal m LEFT JOIN FETCH m.user where m.user.id=:user_id ORDER BY m.dateTime DESC"),
+        @NamedQuery(name = Meal.GET_FILTERED_BY_DATE, query = "SELECT m FROM Meal m LEFT JOIN FETCH m.user where m.user.id=:user_id and m.dateTime>=:start_date and m.dateTime<=:end_date ORDER BY m.dateTime DESC")
 })
 
 @Entity
@@ -23,19 +23,22 @@ public class Meal extends AbstractBaseEntity {
     public static final String DELETE = "Meal.delete";
     public static final String GET_FILTERED_BY_DATE = "Meal.getFilteredByDate";
 
-    @Column(name = "date_time")
+    @Column(name = "date_time", nullable = false)
     @NotNull
     private LocalDateTime dateTime;
 
     @NotBlank
     @Size(max = 100)
+    @Column(nullable = false)
     private String description;
 
     @NotNull
+    @Column(nullable = false)
     private int calories;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     public Meal() {
@@ -50,11 +53,6 @@ public class Meal extends AbstractBaseEntity {
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
-    }
-
-    public Meal(Integer id, LocalDateTime dateTime, String description, int calories, User user) {
-        this(id, dateTime, description, calories);
-        setUser(user);
     }
 
     public LocalDateTime getDateTime() {

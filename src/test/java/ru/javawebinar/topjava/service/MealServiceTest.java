@@ -57,7 +57,7 @@ public class MealServiceTest {
     @Test
     public void delete() throws Exception {
         service.delete(MEAL1_ID, USER_ID);
-        assertMatch(service.getAll(USER_ID), MEAL2, MEAL3, MEAL4, MEAL5, MEAL6);
+        assertMatch(service.getAll(USER_ID), MEAL6, MEAL5, MEAL4, MEAL3, MEAL2);
     }
 
     @Test
@@ -70,7 +70,7 @@ public class MealServiceTest {
     public void save() throws Exception {
         Meal created = getCreated();
         service.create(created, USER_ID);
-        assertMatch(service.getAll(USER_ID), MEAL1, MEAL2, MEAL3, MEAL4, MEAL5, MEAL6, created);
+        assertMatch(service.getAll(USER_ID), created, MEAL6, MEAL5, MEAL4, MEAL3, MEAL2, MEAL1);
     }
 
     @Test
@@ -95,7 +95,7 @@ public class MealServiceTest {
     @Test
     public void updateNotFound() throws Exception {
         thrown.expect(NotFoundException.class);
-        thrown.expectMessage("Not found meal with id:" + MEAL1_ID);
+        thrown.expectMessage("Not found entity with id=" + MEAL1_ID);
         service.update(MEAL1, ADMIN_ID);
     }
 
@@ -108,7 +108,7 @@ public class MealServiceTest {
     public void getBetween() throws Exception {
         assertMatch(service.getBetweenDates(
                 LocalDate.of(2015, Month.MAY, 30),
-                LocalDate.of(2015, Month.MAY, 30), USER_ID), MEAL1, MEAL2, MEAL3);
+                LocalDate.of(2015, Month.MAY, 30), USER_ID), MEAL3, MEAL2, MEAL1);
     }
 
     @AfterClass
