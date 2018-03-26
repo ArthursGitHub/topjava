@@ -1,5 +1,7 @@
 package ru.javawebinar.topjava.model;
 
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -10,9 +12,9 @@ import java.time.LocalTime;
 
 @NamedQueries({
         @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.id=:id and m.user.id=:user_id"),
-        @NamedQuery(name = Meal.GET, query = "SELECT m FROM Meal m LEFT JOIN FETCH m.user WHERE m.id=:id and m.user.id=:user_id"),
-        @NamedQuery(name = Meal.GET_ALL, query = "SELECT m FROM Meal m LEFT JOIN FETCH m.user where m.user.id=:user_id ORDER BY m.dateTime DESC"),
-        @NamedQuery(name = Meal.GET_FILTERED_BY_DATE, query = "SELECT m FROM Meal m LEFT JOIN FETCH m.user where m.user.id=:user_id and m.dateTime>=:start_date and m.dateTime<=:end_date ORDER BY m.dateTime DESC")
+        @NamedQuery(name = Meal.GET, query = "SELECT m FROM Meal m WHERE m.id=:id and m.user.id=:user_id"),
+        @NamedQuery(name = Meal.GET_ALL, query = "SELECT m FROM Meal m where m.user.id=:user_id ORDER BY m.dateTime DESC"),
+        @NamedQuery(name = Meal.GET_FILTERED_BY_DATE, query = "SELECT m FROM Meal m where m.user.id=:user_id and m.dateTime>=:start_date and m.dateTime<=:end_date ORDER BY m.dateTime DESC")
 })
 
 @Entity
@@ -32,8 +34,8 @@ public class Meal extends AbstractBaseEntity {
     @Column(nullable = false)
     private String description;
 
-    @NotNull
     @Column(nullable = false)
+    @Range(min = 10, max = 5000)
     private int calories;
 
     @NotNull

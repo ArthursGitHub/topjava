@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -38,12 +39,19 @@ public class MealServiceTest {
 
     @Rule
     public final ExpectedException thrown = ExpectedException.none();
+
     @Rule
     public Stopwatch stopwatch = new Stopwatch() {
         @Override
         protected void finished(long nanos, Description description) {
             long executionTime = TimeUnit.NANOSECONDS.toMillis(nanos);
-            result.append(description.getDisplayName() + " : " + executionTime + "\n");
+            result.append(String.format("%18s %20d\n", description.getMethodName(), TimeUnit.NANOSECONDS.toMillis(nanos)));
+
+            log.info("\n*************************************************************\n" +
+                    "              Test                 Duration (mc)\n" +
+                    "*************************************************************\n" +
+                    String.format("%18s %20d\n", description.getMethodName(), TimeUnit.NANOSECONDS.toMillis(nanos)) +
+                    "*************************************************************");
         }
     };
 
@@ -114,9 +122,9 @@ public class MealServiceTest {
     @AfterClass
     public static void printResult() {
         log.info("\n*************************************************************\n" +
-                   "              Test                 Duration \n" +
+                   "              Test                 Duration (mc)\n" +
                    "*************************************************************\n" +
                 result +
                    "*************************************************************");
-   }
+    }
 }
