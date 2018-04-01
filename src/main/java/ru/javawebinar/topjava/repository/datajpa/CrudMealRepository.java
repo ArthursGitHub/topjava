@@ -22,15 +22,15 @@ public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
   @Transactional
   Meal save(Meal meal);
 
-  @Query("SELECT m from Meal m JOIN FETCH m.user WHERE m.id=:id AND m.user.id=:userId")
-  Optional<Meal> findByIdWithUser(@Param("id") int id, @Param("userId") int userId);
+  @Query("SELECT m FROM Meal m WHERE m.user.id=:userId ORDER BY m.dateTime DESC")
+  List<Meal> getAll(@Param("userId") int userId);
 
-  @Query("SELECT m from Meal m WHERE m.id=:id AND m.user.id=:userId")
-  Optional<Meal> findById(@Param("id") int id, @Param("userId") int userId);
-
-  @Query("SELECT m from Meal m WHERE m.user.id=:userId AND m.dateTime BETWEEN :startDate AND :endDate ORDER BY m.dateTime DESC")
+  @Query("SELECT m FROM Meal m WHERE m.user.id=:userId AND m.dateTime BETWEEN :startDate AND :endDate ORDER BY m.dateTime DESC")
   List<Meal> getBetween(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, @Param("userId") int userId);
 
-  @Query("SELECT m FROM Meal m WHERE m.user.id=:userId ORDER BY m.dateTime DESC")
-  List<Meal> findAll(@Param("userId") int userId);
+  @Query("SELECT m FROM Meal m WHERE m.id=:id AND m.user.id=:userId")
+  Optional<Meal> getById(@Param("id") int id, @Param("userId") int userId);
+
+  @Query("SELECT m FROM Meal m JOIN FETCH m.user WHERE m.id=:id AND m.user.id=:userId")
+  Optional<Meal> getByIdWithUser(@Param("id") int id, @Param("userId") int userId);
 }

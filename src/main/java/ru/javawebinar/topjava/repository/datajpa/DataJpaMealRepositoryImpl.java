@@ -36,12 +36,12 @@ public class DataJpaMealRepositoryImpl implements MealRepository {
 
     @Override
     public Meal get(int id, int userId) {
-        return crudMealRepository.findById(id, userId).orElse(null);
+        return crudMealRepository.getById(id, userId).orElse(null);
     }
 
     @Override
     public List<Meal> getAll(int userId) {
-        return crudMealRepository.findAll(userId);
+        return crudMealRepository.getAll(userId);
     }
 
     @Override
@@ -51,6 +51,6 @@ public class DataJpaMealRepositoryImpl implements MealRepository {
 
     @Override
     public Meal getWithUser(int id, int userId) {
-        return crudMealRepository.findByIdWithUser(id, userId).orElse(null);
+        return crudMealRepository.getByIdWithUser(id, userId).orElse(null);
     }
 }
