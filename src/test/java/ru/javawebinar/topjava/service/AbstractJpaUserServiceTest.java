@@ -9,9 +9,6 @@ public abstract class  AbstractJpaUserServiceTest extends AbstractUserServiceTes
   @Autowired
   private JpaUtil jpaUtil;
 
-  @Autowired
-  private CacheManager cacheManager;
-
   @Before
   public void setUp() throws Exception {
     cacheManager.getCache("users").clear();
