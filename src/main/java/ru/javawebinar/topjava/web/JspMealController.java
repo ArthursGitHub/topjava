@@ -24,6 +24,7 @@ import java.util.Objects;
 import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalDate;
 import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalTime;
 import static ru.javawebinar.topjava.util.Util.orElse;
+import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
 
 @RequestMapping(value = "/meals")
 @Controller
@@ -34,19 +35,9 @@ public class JspMealController {
 
   @GetMapping("/create")
   public String createMeal(HttpServletRequest request, Model model) {
-    int userId = AuthorizedUser.id();
     final Meal meal = new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000);
     model.addAttribute("meal", meal);
     return "mealForm";
-  }
-
-  @GetMapping("/delete")
-  public String deleteMeal(HttpServletRequest request) {
-    int userId = AuthorizedUser.id();
-    int paramId = getId(request);
-    System.out.println(paramId);
-    service.delete(paramId, userId);
-    return "redirect:/meals";
   }
 
   @GetMapping("/update")
@@ -57,9 +48,12 @@ public class JspMealController {
     return "mealForm";
   }
 
-  @GetMapping(params = "all")
-  public String allMeal(Model model) {
-    return null;
+  @GetMapping("/delete")
+  public String deleteMeal(HttpServletRequest request) {
+    int userId = AuthorizedUser.id();
+    int paramId = getId(request);
+    service.delete(paramId, userId);
+    return "redirect:/meals";
   }
 
   @PostMapping()
@@ -73,9 +67,10 @@ public class JspMealController {
 
     String id = request.getParameter("id");
     if(id.isEmpty()){
-      service.create(meal, userId);// ???
+      service.create(meal, userId);
     } else {
       meal.setId(Integer.parseInt(id));
+      assureIdConsistent(meal, getId(request));
       service.update(meal, userId);
     }
     return "redirect:/meals";
@@ -97,7 +92,7 @@ public class JspMealController {
     return Integer.parseInt(paramId);
   }
 
-  public List<MealWithExceed> getBetween(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
+  private List<MealWithExceed> getBetween(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
     int userId = AuthorizedUser.id();
 
     List<Meal> mealsDateFiltered = service.getBetweenDates(
