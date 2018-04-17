@@ -1,4 +1,4 @@
-package ru.javawebinar.topjava.web;
+package ru.javawebinar.topjava.web.meal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,10 +28,7 @@ import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
 
 @RequestMapping(value = "/meals")
 @Controller
-public class JspMealController {
-
-  @Autowired
-  private MealService service;
+public class JspMealController extends AbstractMealController {
 
   @GetMapping("/create")
   public String createMeal(HttpServletRequest request, Model model) {
@@ -42,23 +39,19 @@ public class JspMealController {
 
   @GetMapping("/update")
   public String updateMeal(HttpServletRequest request, Model model) {
-    int userId = AuthorizedUser.id();
-    final Meal meal = service.get(getId(request), userId);
+    Meal meal = super.get(getId(request));
     model.addAttribute("meal", meal);
     return "mealForm";
   }
 
   @GetMapping("/delete")
   public String deleteMeal(HttpServletRequest request) {
-    int userId = AuthorizedUser.id();
-    int paramId = getId(request);
-    service.delete(paramId, userId);
+    super.delete(getId(request));
     return "redirect:/meals";
   }
 
   @PostMapping()
   public String setMeal(HttpServletRequest request) {
-    int userId = AuthorizedUser.id();
     Meal meal = new Meal(
             LocalDateTime.parse(request.getParameter("dateTime")),
             request.getParameter("description"),
@@ -67,11 +60,10 @@ public class JspMealController {
 
     String id = request.getParameter("id");
     if(id.isEmpty()){
-      service.create(meal, userId);
+      super.create(meal);
     } else {
       meal.setId(Integer.parseInt(id));
-      assureIdConsistent(meal, getId(request));
-      service.update(meal, userId);
+      super.update(meal, getId(request));
     }
     return "redirect:/meals";
   }
@@ -90,16 +82,5 @@ public class JspMealController {
   private int getId(HttpServletRequest request) {
     String paramId = Objects.requireNonNull(request.getParameter("id"));
     return Integer.parseInt(paramId);
-  }
-
-  private List<MealWithExceed> getBetween(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
-    int userId = AuthorizedUser.id();
-
-    List<Meal> mealsDateFiltered = service.getBetweenDates(
-            orElse(startDate, DateTimeUtil.MIN_DATE), orElse(endDate, DateTimeUtil.MAX_DATE), userId);
-
-    return MealsUtil.getFilteredWithExceeded(mealsDateFiltered, AuthorizedUser.getCaloriesPerDay(),
-            orElse(startTime, LocalTime.MIN), orElse(endTime, LocalTime.MAX)
-    );
   }
 }
