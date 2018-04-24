@@ -74,7 +74,7 @@ public class MealRestControllerTest extends AbstractControllerTest {
     assertMatch(returned, created);
     assertMatch(mealService.getAll(START_SEQ), created, MEAL6, MEAL5, MEAL4, MEAL3, MEAL2, MEAL1);
   }
-/*
+
   @Test
   public void testGetBetween() throws Exception {
             mockMvc.perform(get(REST_URL + "between?startDateTime=2015-05-30T07:00&endDateTime=2015-05-31T14:00:00"))
@@ -87,12 +87,10 @@ public class MealRestControllerTest extends AbstractControllerTest {
                             MealsUtil.createWithExceed(MEAL1, false)
                     ));
   }
-*/
+
   @Test
-  public void testFilter() throws Exception {
-    mockMvc.perform(get(REST_URL + "filter")
-            .param("startDate", "2015-05-30").param("startTime", "07:00")
-            .param("endDate", "2015-05-31").param("endTime", "14:00"))
+  public void testFilterFull() throws Exception {
+    mockMvc.perform(get(REST_URL + "filtered_between?startDate=2015-05-30&startTime=07:00&endDate=2015-05-31&endTime=14:00"))
             .andExpect(status().isOk())
             .andDo(print())
             .andExpect(contentJsonArray(
@@ -100,6 +98,17 @@ public class MealRestControllerTest extends AbstractControllerTest {
                     MealsUtil.createWithExceed(MEAL4, true),
                     MealsUtil.createWithExceed(MEAL2, false),
                     MealsUtil.createWithExceed(MEAL1, false)
+            ));
+  }
+
+  @Test
+  public void testFilterShort() throws Exception {
+    mockMvc.perform(get(REST_URL + "filtered_between?startDate=2015-05-31&startTime=12:00"))
+            .andExpect(status().isOk())
+            .andDo(print())
+            .andExpect(contentJsonArray(
+                    MealsUtil.createWithExceed(MEAL5, true),
+                    MealsUtil.createWithExceed(MEAL6, true)
             ));
   }
 }
