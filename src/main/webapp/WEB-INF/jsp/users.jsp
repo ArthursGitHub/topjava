@@ -80,9 +80,11 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
                     <span class="fa fa-close" aria-hidden="true"></span>
+                    <spring:message code="common.cancel"/>
                 </button>
                 <button type="button" class="btn btn-primary" onclick="save()">
                     <span class="fa fa-check" aria-hidden="true"></span>
+                    <spring:message code="common.save"/>
                 </button>
             </div>
         </div>
