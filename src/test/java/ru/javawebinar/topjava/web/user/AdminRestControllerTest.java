@@ -15,6 +15,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.javawebinar.topjava.TestUtil.readFromJson;
 import static ru.javawebinar.topjava.UserTestData.*;
 
 public class AdminRestControllerTest extends AbstractControllerTest {
@@ -43,7 +44,7 @@ public class AdminRestControllerTest extends AbstractControllerTest {
     public void testDelete() throws Exception {
         mockMvc.perform(delete(REST_URL + USER_ID))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
         assertMatch(userService.getAll(), ADMIN);
     }
 
@@ -68,7 +69,7 @@ public class AdminRestControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(expected)))
                 .andExpect(status().isCreated());
 
-        User returned = TestUtil.readFromJson(action, User.class);
+        User returned = readFromJson(action, User.class);
         expected.setId(returned.getId());
 
         assertMatch(returned, expected);
