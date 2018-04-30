@@ -84,6 +84,35 @@
         </div>
     </div>
 
+
+    <div>
+        <form id="FilterForm">
+        <dl>
+            <dt><spring:message code="meal.startDate"/>:</dt>
+            <dd><input type="date" name="startDate"></dd>
+        </dl>
+        <dl>
+            <dt><spring:message code="meal.endDate"/>:</dt>
+            <dd><input type="date" name="endDate"></dd>
+        </dl>
+        <dl>
+            <dt><spring:message code="meal.startTime"/>:</dt>
+            <dd><input type="time" name="startTime"></dd>
+        </dl>
+        <dl>
+            <dt><spring:message code="meal.endTime"/>:</dt>
+            <dd><input type="time" name="endTime"></dd>
+        </dl>
+        </form>
+        <button type="button" onclick="filter()"><spring:message code="meal.filter"/></button>
+        <br>
+        <br>
+        <br>
+        <br>
+
+    </div>
+
+
 </section>
 <jsp:include page="fragments/footer.jsp"/>
 </body>

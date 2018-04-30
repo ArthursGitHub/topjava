@@ -74,3 +74,17 @@ function failNoty(jqXHR) {
         layout: "bottomRight"
     }).show();
 }
+
+function filter() {
+    var form = $("#FilterForm");
+
+    $.ajax({
+            type: "POST",
+            url: ajaxUrl + "filter",
+            data: form.serialize(),
+            success: function (data) {
+                datatableApi.clear().rows.add(data).draw();
+            }
+        }
+    );
+}
