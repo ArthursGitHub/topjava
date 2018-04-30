@@ -72,7 +72,7 @@
                 </thead>
                 <c:forEach items="${meals}" var="meal">
                     <jsp:useBean id="meal" type="ru.javawebinar.topjava.to.MealWithExceed"/>
-                    <tr id="${meal.id}">
+                    <tr id="${meal.id}" data-mealExceed="${meal.exceed}">
                         <td>${fn:formatDateTime(meal.dateTime)}</td>
                         <td>${meal.description}</td>
                         <td>${meal.calories}</td>
