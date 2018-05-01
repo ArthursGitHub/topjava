@@ -24,3 +24,28 @@ $(function () {
         makeEditable();
     }
 );
+
+function filter() {
+    var form = $("#FilterForm");
+
+    $.ajax({
+            type: "POST",
+            url: ajaxUrl + "filter",
+            data: form.serialize(),
+            success: function (data) {
+                datatableApi.clear().rows.add(data).draw();
+            }
+        }
+    );
+}
+
+function resetFilter() {
+    var components = $("#FilterForm :input");
+    var size = components.length;
+    var i = 0;
+
+    do {
+        components[i].value = "";
+    }
+    while (++i < size);
+}

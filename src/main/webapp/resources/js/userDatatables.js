@@ -40,3 +40,21 @@ $(function () {
     });
     makeEditable();
 });
+
+function changeState() {
+    var components = $(this);
+    var attrId = components.attr("id");
+    var attrState = components[0].checked;
+
+    var data = "id=" + attrId + "&state=" + attrState;
+
+    $.ajax({
+            type: "POST",
+            url: ajaxUrl + "state",
+            data: data,
+            success: function () {
+                updateTable();
+            }
+        }
+    );
+}

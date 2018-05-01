@@ -3,6 +3,8 @@ function makeEditable() {
         deleteRow($(this).parent().parent().attr("id"));
     });
 
+    $("#datatable :input").click(changeState);
+
     $(document).ajaxError(function (event, jqXHR, options, jsExc) {
         failNoty(jqXHR);
     });
@@ -28,9 +30,13 @@ function deleteRow(id) {
 }
 
 function updateTable() {
-    $.get(ajaxUrl, function (data) {
-        datatableApi.clear().rows.add(data).draw();
-    });
+    if (typeof filter =='undefined') {
+        $.get(ajaxUrl, function (data) {
+            datatableApi.clear().rows.add(data).draw();
+        });
+    } else {
+        filter();
+    }
 }
 
 function save() {
@@ -73,18 +79,4 @@ function failNoty(jqXHR) {
         type: "error",
         layout: "bottomRight"
     }).show();
-}
-
-function filter() {
-    var form = $("#FilterForm");
-
-    $.ajax({
-            type: "POST",
-            url: ajaxUrl + "filter",
-            data: form.serialize(),
-            success: function (data) {
-                datatableApi.clear().rows.add(data).draw();
-            }
-        }
-    );
 }

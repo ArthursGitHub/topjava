@@ -106,7 +106,7 @@
         </form>
         <button type="button" onclick="filter()"><spring:message code="meal.filter"/></button>
         <br>
-        <br>
+        <button type="button" onclick="resetFilter()"><spring:message code="common.reset"/></button>
         <br>
         <br>
 
