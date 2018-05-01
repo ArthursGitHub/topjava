@@ -109,6 +109,8 @@
         <button type="button" onclick="resetFilter()"><spring:message code="common.reset"/></button>
         <br>
         <br>
+        <br>
+        <br>
 
     </div>
 
