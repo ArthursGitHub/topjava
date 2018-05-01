@@ -40,8 +40,6 @@ public class AdminAjaxController extends AbstractUserController {
             @RequestParam("id") Integer id,
             @RequestParam("state") Boolean state
     ) {
-        User user = super.get(id);
-        user.setEnabled(state);
-        super.update(user, id);
+        super.setState(id, state);
     }
 }

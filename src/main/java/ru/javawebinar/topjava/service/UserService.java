@@ -21,4 +21,6 @@ public interface UserService {
     List<User> getAll();
 
     User getWithMeals(int id);
+
+    void setState(int id, boolean state);
 }
