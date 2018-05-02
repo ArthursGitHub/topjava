@@ -33,12 +33,13 @@ function changeState() {
 
     var data = "id=" + attrId + "&state=" + attrState;
 
+    $(this).parent().parent().attr("data-userEnabled", attrState);
+
     $.ajax({
             type: "POST",
             url: ajaxUrl + "state",
             data: data,
             success: function () {
-                updateTable();
             }
         }
     );
