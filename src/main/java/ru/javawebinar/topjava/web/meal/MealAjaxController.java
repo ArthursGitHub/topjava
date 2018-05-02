@@ -45,7 +45,6 @@ public class MealAjaxController extends AbstractMealController {
           @RequestParam(value = "startTime", required = false) LocalTime startTime,
           @RequestParam(value = "endDate", required = false) LocalDate endDate,
           @RequestParam(value = "endTime", required = false) LocalTime endTime) {
-    List<MealWithExceed> between = super.getBetween(startDate, startTime, endDate, endTime);
-    return between;
+    return super.getBetween(startDate, startTime, endDate, endTime);
   }
 }

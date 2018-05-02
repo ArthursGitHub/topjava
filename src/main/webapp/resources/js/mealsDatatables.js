@@ -15,7 +15,7 @@ $(function () {
                         {"defaultContent": "Delete", "orderable": false}
                     ],
                     "order": [
-                        [0,"asc"]
+                        [0,"desc"]
                     ]
                 }
             );
@@ -48,4 +48,6 @@ function resetFilter() {
         components[i].value = "";
     }
     while (++i < size);
+
+    updateTable();
 }
