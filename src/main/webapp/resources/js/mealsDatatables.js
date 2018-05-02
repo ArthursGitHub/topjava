@@ -51,3 +51,10 @@ function resetFilter() {
 
     updateTable();
 }
+
+function eventRegistrator() {
+}
+
+function updateTable() {
+    filter();
+}

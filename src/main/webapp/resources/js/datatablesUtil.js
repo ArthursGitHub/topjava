@@ -3,7 +3,8 @@ function makeEditable() {
         deleteRow($(this).parent().parent().attr("id"));
     });
 
-    $("#datatable :input").click(changeState);
+    // $("#datatable :input").click(changeState);
+    eventRegistrator();
 
     $(document).ajaxError(function (event, jqXHR, options, jsExc) {
         failNoty(jqXHR);
@@ -27,16 +28,6 @@ function deleteRow(id) {
             successNoty("Deleted");
         }
     });
-}
-
-function updateTable() {
-    if (typeof filter =='undefined') {
-        $.get(ajaxUrl, function (data) {
-            datatableApi.clear().rows.add(data).draw();
-        });
-    } else {
-        filter();
-    }
 }
 
 function save() {
