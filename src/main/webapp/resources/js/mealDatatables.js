@@ -5,9 +5,8 @@ function updateTable() {
     $.ajax({
         type: "POST",
         url: ajaxUrl + "filter",
-        data: $("#filter").serialize(),
-        success: updateTableByData
-    });
+        data: $("#filter").serialize()
+    }).done(updateTableByData);
 }
 
 function clearFilter() {

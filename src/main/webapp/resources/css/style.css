@@ -10,6 +10,10 @@ tr[data-mealExceed="true"] {
     cursor: pointer;
 }
 
+tr[data-userEnabled="false"] {
+    opacity: 0.3;
+}
+
 /*https://getbootstrap.com/docs/4.0/examples/sticky-footer/sticky-footer.css*/
 html {
     position: relative;
