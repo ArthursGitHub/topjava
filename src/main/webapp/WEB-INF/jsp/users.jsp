@@ -10,7 +10,7 @@
 <script type="text/javascript" src="resources/js/userDatatables.js" defer></script>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 
-<div class="jumbotron">
+<div class="jumbotron pt-4">
     <div class="container">
         <h3><spring:message code="user.title"/></h3>
         <br/>
@@ -79,11 +79,11 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                    <span class="fa fa-close" aria-hidden="true"></span>
+                    <span class="fa fa-close"></span>
                     <spring:message code="common.cancel"/>
                 </button>
                 <button type="button" class="btn btn-primary" onclick="save()">
-                    <span class="fa fa-check" aria-hidden="true"></span>
+                    <span class="fa fa-check"></span>
                     <spring:message code="common.save"/>
                 </button>
             </div>
