@@ -1,8 +1,8 @@
-tr[data-mealExceed="false"] {
+tr.normal {
     color: green;
 }
 
-tr[data-mealExceed="true"] {
+tr.exceeded {
     color: red;
 }
 
