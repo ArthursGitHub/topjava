@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
@@ -8,13 +9,13 @@
 <nav class="navbar navbar-dark bg-dark">
     <div class="container">
         <div class="navbar-brand"><img src="resources/images/icon-meal.png"> <spring:message code="app.title"/></div>
-        <form class="form-inline my-2" action="spring_security_check" method="post">
+        <form:form class="form-inline my-2" action="spring_security_check" method="post">
             <input class="form-control mr-1" type="text" placeholder="Email" name="username">
             <input class="form-control mr-1" type="password" placeholder="Password" name="password">
             <button class="btn btn-success" type="submit">
                 <span class="fa fa-sign-in"></span>
             </button>
-        </form>
+        </form:form>
     </div>
 </nav>
 
