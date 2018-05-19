@@ -28,13 +28,7 @@ $.ajaxSetup({
 });
 
 $(function () {
-    datatableApi = $("#datatable").DataTable({
-        "ajax": {
-            "url": ajaxUrl,
-            "dataSrc": ""
-        },
-        "paging": false,
-        "info": true,
+    datatableApi = $('#datatable').DataTable(extendsOpts({
         "columns": [
             {
                 "data": "dateTime"
@@ -64,9 +58,8 @@ $(function () {
         ],
         "createdRow": function (row, data, dataIndex) {
             $(row).attr("data-mealExceed", data.exceed);
-        },
-        "initComplete": makeEditable
-    });
+        }
+    }));
 
     $.datetimepicker.setLocale(localeCode);
 
