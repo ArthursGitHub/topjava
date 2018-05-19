@@ -106,6 +106,6 @@ public class ExceptionInfoHandler {
         }
         return new ErrorInfo(req.getRequestURL(), errorType,
                 messageUtil.getMessage(errorType.getErrorCode()),
-                details.length != 0 ? details : new String[]{rootCause.toString()});
+                details.length != 0 ? details : new String[]{ValidationUtil.getMessage(rootCause)});
     }
 }
